@@ -475,46 +475,66 @@ function Area.refreshAll()
 end
 
 function Area:setOwner(team)
-	if not team then
-		self.radarArea:setColor(160,160,160,190)
-		self.source:setData("owner",nil)
-		self.owner = nil
-		if(self.type == "gangzona") then
-			local vehicleInstance = Vehicle.getFromBaseName(self.name)
-			local pickupInstance = Pickup.getFromBaseName(self.name)
-			if(vehicleInstance) then
-				vehicleInstance:updateColor(255,255,255)
-				vehicleInstance:setOwner(nil)
-			end
-			if(pickupInstance) then
-				pickupInstance:setOwner(nil)
-			end
-		end
-	else
-		if not (Gang.getFromName(team)) then
-			outputDebugString( "ERROR LOAD GANG: "..team.."UPDATE TERRITORY TO NULL", 1 )
-			self.radarArea:setColor(160,160,160,190)
-			self.source:setData("owner",nil)
-			self.owner = nil
-			return 
-		end
-		local r,g,b = Gang.getFromName(team):getColor()	
-		self.source:setData("owner",team)
-		self.owner = team
-		self.radarArea:setColor(r,g,b,190)
-		if(self.type == "gangzona") then
-			local vehicleInstance = Vehicle.getFromBaseName(self.name)
-			local pickupInstance = Pickup.getFromBaseName(self.name)
-			if(vehicleInstance) then
-				vehicleInstance:updateColor(r,g,b)
-				vehicleInstance:setOwner(self.owner)
-			end
-			if(pickupInstance) then
-				pickupInstance:setOwner(self.owner)
-			end
-		
-		end
-	end
+    if not team then
+        self.radarArea:setColor(160,160,160,190)
+        self.source:setData("owner",nil)
+        self.owner = nil
+
+        if(self.type == "gangzona") then
+            local vehicleInstance = Vehicle.getFromBaseName(self.name)
+            local pickupInstance = Pickup.getFromBaseName(self.name)
+            local specialInstance = specialVehicle.getFromBaseName(self.name)
+
+            if vehicleInstance then
+                vehicleInstance:updateColor(255,255,255)
+                vehicleInstance:setOwner(nil)
+            end
+
+            if pickupInstance then
+                pickupInstance:setOwner(nil)
+            end
+
+            if specialInstance then
+                specialInstance:updateColor(255,255,255)
+                specialInstance:setOwner(nil)
+            end
+        end
+
+    else
+        if not Gang.getFromName(team) then
+            outputDebugString("ERROR LOAD GANG: "..team.." UPDATE TERRITORY TO NULL", 1)
+            self.radarArea:setColor(160,160,160,190)
+            self.source:setData("owner",nil)
+            self.owner = nil
+            return 
+        end
+
+        local r,g,b = Gang.getFromName(team):getColor()
+        self.source:setData("owner",team)
+        self.owner = team
+        self.radarArea:setColor(r,g,b,190)
+
+        if(self.type == "gangzona") then
+            local vehicleInstance = Vehicle.getFromBaseName(self.name)
+            local pickupInstance = Pickup.getFromBaseName(self.name)
+            local specialInstance = specialVehicle.getFromBaseName(self.name)
+
+            if vehicleInstance then
+                vehicleInstance:updateColor(r,g,b)
+                vehicleInstance:setOwner(self.owner)
+            end
+
+            if pickupInstance then
+                pickupInstance:setOwner(self.owner)
+            end
+
+            if specialInstance then
+                specialInstance:updateColor(r,g,b)
+                specialInstance:setOwner(self.owner)
+            end
+        end
+    end
+end
 
 
 	--[[if(team) and (team ~= "") then 
