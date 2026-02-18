@@ -42,8 +42,8 @@ function specialVehicle:init(base, model, x, y, z, rotation)
         self:onVehicleExplode()
     end)
 
-    addEventHandler("onVehicleRespawn", self.vehicle, function(...)
-        self:onVehicleRespawn(source)
+    addEventHandler("onVehicleRespawn", self.vehicle, function()
+        self:onVehicleRespawn(self.vehicle)
     end)
 
     specialVehicle.instances:add(self)
@@ -56,11 +56,24 @@ end
 --------------------------------------------------------------------
 function specialVehicle:onVehicleStartEnter(player)
     if (player and player:getType() == "player") then
+        -- Check if vehicle has forbidden status (cooldown active)
+        if (isTimer(specialVehicle.allowTimer[self.vehicle])) then
+            cancelEvent()
+            outputChatBox("[BASE] Este veículo foi usado recentemente.", player, 255, 0, 0, true)
+            return
+        end
+        
+        -- Check if vehicle has an owner
+        if not self.owner then
+            outputChatBox("[BASE] Este veículo não pertence a nenhuma gang.", player, 255, 0, 0, true)
+            cancelEvent()
+            return
+        end
+        
+        -- Check if player's gang matches owner
         if (player:getTeam() and player:getTeam().name == self.owner) then
-            if (isTimer(specialVehicle.allowTimer[source])) then
-                cancelEvent()
-                outputChatBox("[BASE] Este veículo foi usado recentemente.", player, 255, 0, 0, true)
-            end
+            -- Player is from the owning gang - allow entry
+            return
         else
             outputChatBox("[BASE] Este veículo pertence à base "..self.base, player, 255, 0, 0, true)
             cancelEvent()
@@ -70,15 +83,54 @@ end
 
 
 --------------------------------------------------------------------
+-- Event handler: When player enters vehicle
+--------------------------------------------------------------------
+function specialVehicle:onVehicleEnter(player, seat)
+    -- Additional logic when player successfully enters vehicle
+    if (player and player:getType() == "player" and seat == 0) then
+        -- Driver entered, can add additional logic here if needed
+    end
+end
+
+
+--------------------------------------------------------------------
+-- Event handler: When player exits vehicle
+--------------------------------------------------------------------
+function specialVehicle:onVehicleExit(player, seat)
+    -- Additional logic when player exits vehicle
+    if (player and player:getType() == "player") then
+        -- Can add additional logic here if needed
+    end
+end
+
+
+--------------------------------------------------------------------
+-- Event handler: When vehicle explodes
+--------------------------------------------------------------------
+function specialVehicle:onVehicleExplode()
+    -- Vehicle exploded, will respawn automatically
+    -- Respawn handler will set cooldown timer
+end
+
+
+--------------------------------------------------------------------
 -- Sistema de cooldown pós-respawn
 --------------------------------------------------------------------
 function specialVehicle:onVehicleRespawn(vehicle)
     vehicle:setData("forbidden", true)
-    if (not isTimer(specialVehicle.allowTimer[vehicle])) then
-        specialVehicle.allowTimer[vehicle] = setTimer(function()
-            vehicle:setData("forbidden", false)
-        end, 10*60000, 1)
+    
+    -- Cancel existing timer if it exists
+    if (isTimer(specialVehicle.allowTimer[vehicle])) then
+        killTimer(specialVehicle.allowTimer[vehicle])
     end
+    
+    -- Create new cooldown timer (10 minutes)
+    specialVehicle.allowTimer[vehicle] = setTimer(function()
+        if isElement(vehicle) then
+            vehicle:setData("forbidden", false)
+        end
+        specialVehicle.allowTimer[vehicle] = nil
+    end, 10*60000, 1)
 end
 
 
@@ -87,11 +139,18 @@ end
 --------------------------------------------------------------------
 function specialVehicle.getFromBaseName(baseName)
     if not baseName then return false end
-    for _, inst in pairs(specialVehicle.instances.table or specialVehicle.instances) do
-        if inst.base == baseName then
-            return inst
+    
+    -- Handle ArrayList or regular table structure
+    local instanceTable = specialVehicle.instances.table or specialVehicle.instances
+    
+    if type(instanceTable) == "table" then
+        for _, inst in pairs(instanceTable) do
+            if inst and inst.base == baseName then
+                return inst
+            end
         end
     end
+    
     return false
 end
 
@@ -101,6 +160,11 @@ end
 --------------------------------------------------------------------
 function specialVehicle:updateColor(r,g,b)
     if isElement(self.vehicle) then
+        -- Validate RGB values (0-255)
+        r = math.max(0, math.min(255, tonumber(r) or 255))
+        g = math.max(0, math.min(255, tonumber(g) or 255))
+        b = math.max(0, math.min(255, tonumber(b) or 255))
+        
         self.vehicle:setColor(r,g,b)
     end
 end
@@ -120,14 +184,27 @@ end
 addEvent("onPlayerRequestForbiddenVehicles", true)
 addEventHandler("onPlayerRequestForbiddenVehicles", root,
 function()
-    for _,instance in pairs(specialVehicle.instances.table) do
-        if isTimer(specialVehicle.allowTimer[instance.vehicle]) then
-            specialVehicle.timers = {}
-            specialVehicle.forbidden.elem = instance.vehicle
-            specialVehicle.forbidden.time = getTimerDetails(specialVehicle.allowTimer[instance.vehicle])
-            specialVehicle.timers[#specialVehicle.timers+1] = specialVehicle.forbidden
-            triggerClientEvent(source, "onClientRecieveForbiddenVehicles", source, specialVehicle.timers)
+    -- Initialize timers table before loop
+    local timers = {}
+    
+    -- Handle ArrayList or regular table structure
+    local instanceTable = specialVehicle.instances.table or specialVehicle.instances
+    
+    if type(instanceTable) == "table" then
+        for _,instance in pairs(instanceTable) do
+            if instance and instance.vehicle and isTimer(specialVehicle.allowTimer[instance.vehicle]) then
+                local forbidden = {
+                    elem = instance.vehicle,
+                    time = getTimerDetails(specialVehicle.allowTimer[instance.vehicle])
+                }
+                table.insert(timers, forbidden)
+            end
         end
+    end
+    
+    -- Only send event if there are forbidden vehicles
+    if #timers > 0 then
+        triggerClientEvent(source, "onClientRecieveForbiddenVehicles", source, timers)
     end
 end)
 
