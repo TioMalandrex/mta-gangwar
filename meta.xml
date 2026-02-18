@@ -40,6 +40,7 @@
 			<script src="Class/Base.lua" type="server" />	
     		<script src="Class/Chat.lua" type="server"/>
 			<script src="Class/Area.lua" type="server"/>
+			<script src="Class/specialVehicle.lua" type="server" />
 			<script src="Class/Properties.lua" type="server" />
 			
 		
