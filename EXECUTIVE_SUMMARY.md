@@ -37,9 +37,9 @@ Foram criados **5 documentos** abrangentes totalizando **3,100+ linhas** e **96+
 **Conteúdo:**
 - Arquitetura completa do sistema
 - Análise de todos os 11 componentes principais
-- Documentação de 60+ territórios
+- Documentação de 93 territórios (60+8+4)
 - Mapeamento de 5 bases compráveis
-- Análise de 50+ propriedades
+- Análise de 53 propriedades
 - Fluxos de dados detalhados (login, gangues, territórios)
 - Padrões de design utilizados
 - Estrutura do banco de dados
@@ -98,9 +98,9 @@ Foram criados **5 documentos** abrangentes totalizando **3,100+ linhas** e **96+
 
 2. **Funcionalidades Completas (9.0/10)**
    - Sistema de gangues robusto com 4 níveis hierárquicos
-   - 60+ territórios configurados e funcionais
+   - 93 territórios configurados e funcionais (60 Territorios, 8 Gangzonas, 4 Villas)
    - 5 bases compráveis com veículos e portões
-   - 50+ propriedades com sistema de renda passiva
+   - 53 propriedades com sistema de renda passiva
    - Economia balanceada
    - Sistema de progressão (XP, níveis)
 

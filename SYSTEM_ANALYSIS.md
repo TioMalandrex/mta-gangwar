@@ -17,7 +17,7 @@ O **MTA Gang War** é um gamemode robusto para Multi Theft Auto (MTA) baseado no
 - Sistema de persistência completo com MySQL
 - Modularidade através de recursos externos ([extras])
 - Sistema de gangues com hierarquia e progressão
-- 60+ territórios configuráveis
+- 93 territórios configuráveis (60 Territorios, 8 Gangzonas, 4 Villas)
 - Sistema de economia com propriedades e bases
 
 ### Áreas Críticas que Requerem Atenção ⚠️
@@ -156,7 +156,7 @@ tbl_users_data:
 - Sistema de convites
 - Mudança de cor da gangue (atualiza veículos)
 - Sistema de XP (ganho por domínio de territórios)
-- Tag de 3 caracteres
+- Tag de até 4 caracteres (máx. 4 no código, VARCHAR 3 no DB)
 - Slogan customizável
 - Chat exclusivo da gangue
 
@@ -174,10 +174,10 @@ tbl_users_data:
 ```
 
 #### Area.lua
-**Tipo:** Multi-instância (60+ territórios)  
+**Tipo:** Multi-instância (93 territórios: 60 Territorios, 8 Gangzonas, 4 Villas)  
 **Responsabilidade:** Sistema de territórios e guerra de gangues
 
-**60+ Territórios Incluem:**
+**93 Territórios Incluem:**
 - Las Colinas, East Beach, Los Flores, East Los Santos
 - Downtown, Pershing Square, Market
 - San Fierro, Doherty, Garcia
@@ -211,7 +211,7 @@ tbl_users_data:
 - Controle de acesso por gangue
 
 #### Properties.lua
-**Tipo:** Multi-instância (50+ propriedades)  
+**Tipo:** Multi-instância (53 propriedades)  
 **Responsabilidade:** Sistema de propriedades compráveis
 
 **Tipos de Propriedades:**
@@ -1244,7 +1244,7 @@ end
 
 ### 13.2 Funcionalidades Completas
 - Sistema de gangues robusto com hierarquia
-- 60+ territórios configurados
+- 93 territórios configurados (60 Territorios, 8 Gangzonas, 4 Villas)
 - Economia balanceada (bases, propriedades)
 - Sistema de progressão (XP, níveis)
 

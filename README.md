@@ -43,11 +43,12 @@
 ```
 📊 Linhas de Código:      ~8,000+
 📦 Classes:               11 principais
-🗺️ Territórios:          60+ configurados
+🗺️ Territórios:          93 totais (60+8+4)
 🏢 Bases:                5 disponíveis
-🏠 Propriedades:         50+ imóveis
+🏠 Propriedades:         53 imóveis
 ⚙️ Recursos Extras:      20+ módulos opcionais
 👥 Capacidade:           50-100 jogadores (recomendado)
+📚 Documentação:         7 arquivos (138 KB)
 ```
 
 ---
@@ -62,13 +63,13 @@
   - Comandante (pode convidar/expulsar)
   - Membro (membro regular)
   - Convidado (recém-convidado)
-- **Customização**: Tag de 3 caracteres, cor RGB, slogan
+- **Customização**: Tag de até 4 caracteres, cor RGB, slogan
 - **Sistema de XP**: Progressão através de dominação de territórios
 - **Chat Exclusivo**: Comunicação privada da gangue
 
 ### Territórios e Dominação
 
-- **60+ Zonas de Guerra**: Las Colinas, East Beach, Downtown, San Fierro, Las Venturas, etc.
+- **93 Zonas de Guerra**: 60 Territórios, 8 Gangzonas e 4 Villas (Las Colinas, East Beach, Downtown, San Fierro, Las Venturas, etc.)
 - **Sistema de Dominação**: Capture territórios neutros ou ataque gangues inimigas
 - **XP por Domínio**: Gangues ganham experiência ao controlar territórios
 - **Visualização no Mapa**: Cores indicam gangue dominante
@@ -83,7 +84,7 @@
 - Garagem: $450,000
 
 Cada base inclui:
-- 20+ veículos exclusivos da gangue
+- 15-30 veículos exclusivos da gangue (101 veículos totais)
 - Portões animados com controle de acesso
 - Pickups de armas
 - Sistema de respawn automático
@@ -256,6 +257,7 @@ Este projeto possui documentação completa e abrangente:
 
 | Documento | Descrição | Tamanho |
 |-----------|-----------|---------|
+| **[DETAILED_ANALYSIS.md](DETAILED_ANALYSIS.md)** | 🆕 Análise detalhada e precisa (100% código) | 23 KB |
 | **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 42 KB |
 | **[SECURITY_SUMMARY.md](SECURITY_SUMMARY.md)** | Relatório de segurança e vulnerabilidades | 13 KB |
 | **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** | Guia prático para desenvolvedores | 12 KB |
@@ -265,10 +267,11 @@ Este projeto possui documentação completa e abrangente:
 ### Leitura Recomendada
 
 1. **Começando?** Leia [EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)
-2. **Desenvolvendo?** Consulte [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
-3. **Deploy em Produção?** Leia [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md) **primeiro!**
-4. **Detalhes Técnicos?** Veja [SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)
-5. **Específico MTA?** Consulte [MTA_SA_CONSIDERATIONS.md](MTA_SA_CONSIDERATIONS.md)
+2. **Quer informações precisas?** Consulte [DETAILED_ANALYSIS.md](DETAILED_ANALYSIS.md) 🆕
+3. **Desenvolvendo?** Consulte [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
+4. **Deploy em Produção?** Leia [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md) **primeiro!**
+5. **Detalhes Técnicos?** Veja [SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)
+6. **Específico MTA?** Consulte [MTA_SA_CONSIDERATIONS.md](MTA_SA_CONSIDERATIONS.md)
 
 ---
 
