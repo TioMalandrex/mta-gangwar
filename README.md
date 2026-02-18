@@ -48,8 +48,32 @@
 🏠 Propriedades:         53 imóveis
 ⚙️ Recursos Extras:      20+ módulos opcionais
 👥 Capacidade:           50-100 jogadores (recomendado)
-📚 Documentação:         7 arquivos (138 KB)
 ```
+
+### Referência Rápida de Métricas
+
+| Categoria | Item | Valor | Detalhes |
+|-----------|------|-------|----------|
+| **Gangues** | Custo criação | $400,000 | Custo fixo |
+| | Hierarquia | 4 níveis | Líder, Comandante, Membro, Convidado |
+| | Tag | 4 chars máx | VARCHAR(3) no DB |
+| | XP inicial | 0 | Progressão por territórios |
+| **Territórios** | Total | 93 | 60 Territorios + 8 Gangzonas + 4 Villas |
+| | XP Territorios | 1,000 | Sem requisito |
+| | XP Gangzonas | 5,000 | Requer 6,000 XP |
+| | XP Villas | 10,000 | Requer 11,000 XP |
+| | Tempo dominação | 260s | -500ms por membro |
+| **Bases** | Total | 5 | Area 51, Fabrica, Depto Militar, Construção, Garagem |
+| | Preços | $450k-$1M | $450k (Garagem) - $1M (Area 51) |
+| | Veículos | 101 total | 15-30 por base |
+| | XP requerido | 10,000 | Para comprar |
+| **Propriedades** | Total | 53 | Lojas, hotéis, cassinos, etc |
+| | Preços | $10k-$500k | $10k (Tatoo) - $500k (Marine) |
+| | Renda | 10% / 10min | Renda passiva automática |
+| **Contas** | Username | 4+ chars | Letras e números |
+| | Senha | 3+ chars | ⚠️ MD5 (inseguro) |
+| | Limite serial | 2 contas | Por hardware ID |
+| | Dinheiro inicial | $100,000 | Ao criar conta |
 
 ---
 
@@ -251,27 +275,16 @@ setTimer(function() giveRent(...) end, 600000)  -- 10 minutos
 
 ## 📚 Documentação
 
-Este projeto possui documentação completa e abrangente:
+Este README contém toda a informação essencial para começar. Para análises técnicas profundas, consulte:
 
-### Documentos Disponíveis
+### Documentos Técnicos Disponíveis
 
-| Documento | Descrição | Tamanho |
-|-----------|-----------|---------|
-| **[DETAILED_ANALYSIS.md](DETAILED_ANALYSIS.md)** | 🆕 Análise detalhada e precisa (100% código) | 23 KB |
-| **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 42 KB |
-| **[SECURITY_SUMMARY.md](SECURITY_SUMMARY.md)** | Relatório de segurança e vulnerabilidades | 13 KB |
-| **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** | Guia prático para desenvolvedores | 12 KB |
-| **[MTA_SA_CONSIDERATIONS.md](MTA_SA_CONSIDERATIONS.md)** | Aspectos específicos do MTA:SA | 19 KB |
-| **[EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)** | Resumo executivo do projeto | 13 KB |
+| Documento | Descrição | Tamanho | Quando Usar |
+|-----------|-----------|---------|-------------|
+| **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 43 KB | Arquitetura, padrões, detalhes técnicos |
+| **[SECURITY_SUMMARY.md](SECURITY_SUMMARY.md)** | Relatório de segurança e vulnerabilidades | 13 KB | **ANTES** de ir para produção! |
 
-### Leitura Recomendada
-
-1. **Começando?** Leia [EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)
-2. **Quer informações precisas?** Consulte [DETAILED_ANALYSIS.md](DETAILED_ANALYSIS.md) 🆕
-3. **Desenvolvendo?** Consulte [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
-4. **Deploy em Produção?** Leia [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md) **primeiro!**
-5. **Detalhes Técnicos?** Veja [SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)
-6. **Específico MTA?** Consulte [MTA_SA_CONSIDERATIONS.md](MTA_SA_CONSIDERATIONS.md)
+**Nota:** Este README agora consolida informações que antes estavam em múltiplos arquivos (DEVELOPER_GUIDE, DETAILED_ANALYSIS, EXECUTIVE_SUMMARY, MTA_SA_CONSIDERATIONS).
 
 ---
 
@@ -408,6 +421,142 @@ mta-gangwar/
 
 ---
 
+## 💻 Desenvolvimento
+
+### Estrutura de Diretórios Detalhada
+
+```
+mta-gangwar/
+├── Class/              # Classes principais (OOP)
+│   ├── Database.lua    # Singleton - Conexão MySQL
+│   ├── Account.lua     # Gerenciamento de contas
+│   ├── Gang.lua        # Sistema de gangues
+│   ├── Area.lua        # Territórios e dominação
+│   ├── Base.lua        # Bases compráveis
+│   └── Properties.lua  # Propriedades com renda
+├── Inits/              # Inicialização e event handlers
+│   ├── main.lua        # Entry point servidor
+│   ├── main_c.lua      # Entry point cliente
+│   ├── login/          # Sistema de login/registro
+│   ├── gameplay/       # Veículos, pickups, mensagens
+│   ├── turf/           # Territórios e guerra
+│   └── bank/           # Sistema bancário
+├── hud/                # Interface do usuário (DX)
+│   └── client/         # Todas as UIs do cliente
+├── Shared/             # Código compartilhado cliente-servidor
+├── [extras]/           # Recursos opcionais (20+)
+├── [map-gang-war-bases]/  # Objetos e maps
+└── meta.xml           # Manifesto do resource MTA
+```
+
+### Como Adicionar Features
+
+#### Adicionar Novo Território
+
+**Arquivo:** `Inits/turf/shared/data.lua`
+
+```lua
+-- Adicionar ao array Areas.data:
+{
+    ["name"] = "Novo Território",
+    ["x"] = 2000.0,      -- Coordenada X
+    ["y"] = 1500.0,      -- Coordenada Y
+    ["width"] = 200.0,   -- Largura
+    ["height"] = 200.0,  -- Altura
+    ["owner"] = nil      -- null = neutro
+}
+```
+
+**Nota:** Use o Map Editor do MTA para obter coordenadas precisas.
+
+#### Adicionar Nova Base
+
+**Arquivo:** `Class/Base.lua`
+
+```lua
+-- Adicionar ao array Base.data:
+["Minha Base"] = {
+    cost = 750000,
+    x = 2500.0, y = 2000.0, z = 10.0,
+    vehicles = {
+        {id = 411, x = 2510, y = 2010, z = 10},
+        -- Adicione mais veículos...
+    },
+    pickups = {
+        {weapon = 31, x = 2505, y = 2005, z = 10},
+        -- Adicione mais pickups...
+    }
+}
+```
+
+#### Adicionar Nova Propriedade
+
+**Arquivo:** `Class/Properties.lua`
+
+```lua
+-- Adicionar ao array Properties.data:
+{
+    name = "Minha Loja",
+    price = 150000,
+    income = 15000,  -- 10% do preço
+    x = 1000.0, y = 1000.0, z = 10.0,
+    type = "shop"
+}
+```
+
+### Comandos de Desenvolvimento
+
+```bash
+# Iniciar servidor MTA (Linux)
+./mta-server --config mtaserver.conf
+
+# Ver logs em tempo real
+tail -f mods/deathmatch/logs/server.log
+
+# Reiniciar resource sem reiniciar servidor
+restart mta-gangwar
+
+# Depuração remota (MTA Server)
+# Editar mtaserver.conf e habilitar:
+<module src="ml_sockets.so" />
+```
+
+### Troubleshooting Comum
+
+**Problema:** "Connection failed" ao conectar MySQL
+```lua
+-- Verificar: Class/Database.lua
+-- Credenciais corretas?
+-- MySQL está rodando?
+-- Porta 3306 acessível?
+```
+
+**Problema:** UI não aparece
+```lua
+-- Verificar: meta.xml
+-- Todos os arquivos client estão listados?
+-- JavaScript/DX está habilitado no cliente?
+```
+
+**Problema:** Gangue não salva após restart
+```lua
+-- Verificar: Class/Gang.lua
+-- onResourceStop está salvando dados?
+-- Tabela tbl_gangs existe no MySQL?
+```
+
+### Boas Práticas
+
+- ✅ Use **português** para comentários e nomes
+- ✅ Siga o padrão **OOP** das classes existentes
+- ✅ Teste mudanças em servidor local primeiro
+- ✅ Use `outputDebugString()` para debug
+- ✅ Valide inputs de usuário **sempre**
+- ❌ **Nunca** commit credenciais
+- ❌ **Nunca** use `loadstring()` com input de usuário
+
+---
+
 ## 🤝 Contribuindo
 
 ### Como Contribuir
@@ -420,20 +569,20 @@ mta-gangwar/
 
 ### Diretrizes
 
-- Siga as boas práticas documentadas em [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
+- Siga as boas práticas documentadas acima
 - Escreva código limpo e comentado
 - Teste suas mudanças localmente
 - Atualize a documentação se necessário
 - Respeite o estilo de código existente
 
-### Adicionando Features
+### Áreas que Precisam de Contribuição
 
-Consulte [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) para:
-- Como adicionar novos territórios
-- Como adicionar novas bases
-- Como adicionar novas propriedades
-- Como criar novos comandos
-- Como criar novas telas (HUD)
+- [ ] Implementação de bcrypt para senhas
+- [ ] Sistema de rate limiting
+- [ ] Testes unitários
+- [ ] Documentação de API
+- [ ] Tradução para outros idiomas
+- [ ] Correção de bugs conhecidos
 
 ---
 
