@@ -191,17 +191,17 @@ tbl_users_data:
 - **Visualização:** Zonas coloridas no mapa com a cor da gangue dominante
 
 #### Base.lua
-**Tipo:** Multi-instância (10+ bases)  
+**Tipo:** Multi-instância (5 bases)  
 **Responsabilidade:** Bases compráveis para gangues
 
 **Bases Disponíveis:**
 | Base | Preço | Veículos | Localização |
 |------|-------|----------|-------------|
 | Area 51 | $1,000,000 | 20+ | Desert |
-| Fábrica | $800,000 | 20+ | Los Santos |
-| Departamento Militar | $950,000 | 20+ | Military Base |
-| Base Naval | $750,000 | 20+ | San Fierro |
-| Aeroporto | $900,000 | 20+ | Las Venturas |
+| Fabrica | $525,000 | 20+ | Los Santos |
+| Departamento Militar | $500,000 | 20+ | Military Base |
+| Construção | $475,000 | 20+ | Las Venturas |
+| Garagem | $450,000 | 20+ | San Fierro |
 
 **Recursos de Base:**
 - Portões animados (abrem/fecham)

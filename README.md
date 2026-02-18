@@ -31,7 +31,7 @@
 
 - **🏆 Sistema de Gangues Completo**: 4 níveis hierárquicos (Convidado, Membro, Comandante, Líder)
 - **🗺️ 60+ Territórios**: Controle e domine territórios estratégicos no mapa
-- **🏢 10+ Bases Compráveis**: Bases com veículos, portões e recursos exclusivos
+- **🏢 5 Bases Compráveis**: Bases com veículos, portões e recursos exclusivos
 - **🏠 50+ Propriedades**: Sistema de propriedades com renda passiva
 - **💰 Economia Balanceada**: Sistema completo de dinheiro, banco e transações
 - **🔫 Sistema de Combate**: Drive-by, pickups de armas e morte realista
@@ -44,7 +44,7 @@
 📊 Linhas de Código:      ~8,000+
 📦 Classes:               11 principais
 🗺️ Territórios:          60+ configurados
-🏢 Bases:                10+ disponíveis
+🏢 Bases:                5 disponíveis
 🏠 Propriedades:         50+ imóveis
 ⚙️ Recursos Extras:      20+ módulos opcionais
 👥 Capacidade:           50-100 jogadores (recomendado)
@@ -75,12 +75,12 @@
 
 ### Bases e Propriedades
 
-**Bases (10+ disponíveis):**
+**Bases (5 disponíveis):**
 - Area 51: $1,000,000
-- Fábrica: $800,000
-- Departamento Militar: $950,000
-- Base Naval: $750,000
-- Aeroporto: $900,000
+- Fabrica: $525,000
+- Departamento Militar: $500,000
+- Construção: $475,000
+- Garagem: $450,000
 
 Cada base inclui:
 - 20+ veículos exclusivos da gangue

@@ -38,7 +38,7 @@ Foram criados **5 documentos** abrangentes totalizando **3,100+ linhas** e **96+
 - Arquitetura completa do sistema
 - Análise de todos os 11 componentes principais
 - Documentação de 60+ territórios
-- Mapeamento de 10+ bases compráveis
+- Mapeamento de 5 bases compráveis
 - Análise de 50+ propriedades
 - Fluxos de dados detalhados (login, gangues, territórios)
 - Padrões de design utilizados
@@ -99,7 +99,7 @@ Foram criados **5 documentos** abrangentes totalizando **3,100+ linhas** e **96+
 2. **Funcionalidades Completas (9.0/10)**
    - Sistema de gangues robusto com 4 níveis hierárquicos
    - 60+ territórios configurados e funcionais
-   - 10+ bases compráveis com veículos e portões
+   - 5 bases compráveis com veículos e portões
    - 50+ propriedades com sistema de renda passiva
    - Economia balanceada
    - Sistema de progressão (XP, níveis)
@@ -263,7 +263,7 @@ Arquivos Analisados:          100+
 Linhas de Código:             ~8,000+
 Classes Principais:           11
 Territórios Mapeados:         60+
-Bases Documentadas:           10+
+Bases Documentadas:           5
 Propriedades Identificadas:   50+
 Recursos Extras:              20+
 Vulnerabilidades Encontradas: 10

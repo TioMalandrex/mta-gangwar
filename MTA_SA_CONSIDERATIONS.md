@@ -780,7 +780,7 @@ unban banID
 | **Jogadores Suportados** | 50-100 (recomendado) |
 | **Gangues Simultâneas** | Ilimitado (limitado por DB) |
 | **Territórios** | 60+ configurados |
-| **Bases** | 10+ disponíveis |
+| **Bases** | 5 disponíveis |
 | **Veículos Simultâneos** | 200+ |
 
 ---
