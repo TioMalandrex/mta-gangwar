@@ -282,8 +282,7 @@ Este README contém toda a informação essencial para começar. Para análises 
 | Documento | Descrição | Tamanho | Quando Usar |
 |-----------|-----------|---------|-------------|
 | **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 43 KB | Arquitetura, padrões, detalhes técnicos |
-| **[SECURITY_REVISED.md](SECURITY_REVISED.md)** 🆕 | **Análise de segurança revisada (MTA context)** | 45 KB | **LEIA ANTES** de produção! |
-| **[~~SECURITY_SUMMARY.md~~](SECURITY_SUMMARY.md)** | ⚠️ Análise desatualizada (sem contexto MTA) | 13 KB | Substituída por SECURITY_REVISED.md |
+| **[SECURITY_REVISED.md](SECURITY_REVISED.md)** | **Análise de segurança (contexto MTA:SA)** | 20 KB | **LEIA ANTES** de produção! |
 
 **Nota:** Este README consolida informações que antes estavam em múltiplos arquivos. A análise de segurança foi **completamente revisada** considerando a arquitetura cliente-servidor do MTA:SA e repositório privado.
 
