@@ -496,7 +496,7 @@ Use o template:
 | **Performance** | 7.0/10 | ✅ Bom |
 | **Manutenibilidade** | 7.5/10 | ✅ Bom |
 
-**Nota Geral**: **6.9/10** → Com correções de segurança: **8.5-9.0/10** ⭐
+**Nota Geral**: **6.9/10** → **Estimativa Após Correções: 8.5-9.0/10** ⭐
 
 ---
 
@@ -519,7 +519,7 @@ Este projeto é mantido sob licença customizada. Consulte o arquivo LICENSE par
 
 - **GitHub Issues**: [Reportar Problema](https://github.com/TioMalandrex/mta-gangwar/issues)
 - **Documentação**: Consulte os arquivos `.md` no repositório
-- **Website**: www.maingames.com.br
+- **Website**: https://www.maingames.com.br
 
 ---
 
