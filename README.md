@@ -66,6 +66,8 @@
 | **Bases** | Total | 5 | Area 51, Fabrica, Depto Militar, Construção, Garagem |
 | | Preços | $450k-$1M | $450k (Garagem) - $1M (Area 51) |
 | | Veículos | 101 total | 15-30 por base |
+| | Veículos Especiais | 5 | Hunter, Hydra, Rhino, Seasparrow (x2) |
+| | Cooldown especiais | 10 minutos | Após respawn do veículo |
 | | XP requerido | 10,000 | Para comprar |
 | **Propriedades** | Total | 53 | Lojas, hotéis, cassinos, etc |
 | | Preços | $10k-$500k | $10k (Tatoo) - $500k (Marine) |
@@ -109,9 +111,29 @@
 
 Cada base inclui:
 - 15-30 veículos exclusivos da gangue (101 veículos totais)
+- 1 veículo especial militar (Hunter, Hydra, Rhino, Seasparrow)
 - Portões animados com controle de acesso
 - Pickups de armas
 - Sistema de respawn automático
+
+**Veículos Especiais:**
+
+Cada base possui um veículo militar exclusivo com controle de acesso rigoroso:
+
+| Base | Veículo | Modelo | Descrição |
+|------|---------|--------|-----------|
+| Area 51 | Hunter | 425 | Helicóptero de ataque militar |
+| Fabrica | Hydra | 520 | Caça a jato VTOL |
+| Departamento Militar | Rhino | 432 | Tanque de guerra |
+| Construção | Seasparrow | 447 | Helicóptero armado |
+| Garagem | Seasparrow | 447 | Helicóptero armado |
+
+**Características dos Veículos Especiais:**
+- 🔒 **Acesso Restrito**: Apenas membros da gang dona da base podem usar
+- ⏱️ **Cooldown**: 10 minutos de bloqueio após respawn do veículo
+- 🎨 **Cor da Gang**: Atualiza automaticamente com a cor da gang ao capturar a base
+- 🔄 **Respawn Automático**: Ressurgem automaticamente após destruição
+- ⚔️ **Poder de Fogo**: Veículos armados para domínio territorial
 
 **Propriedades (53 disponíveis):**
 - Lojas, hotéis, cassinos, clubes, motéis
