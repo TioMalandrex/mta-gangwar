@@ -165,75 +165,173 @@ Mapas:          [map-gang-war-bases]
 
 ## 🚀 Instalação
 
-### Passo 1: Clonar o Repositório
+### ✅ Antes de Começar
 
+Certifique-se de ter:
+- ✅ MTA Server 1.5.3+ instalado e funcionando
+- ✅ MySQL ou MariaDB instalado
+- ✅ Acesso ao console do servidor MTA
+- ✅ GTA San Andreas (para clientes)
+
+---
+
+### 📁 Passo 1: Download do Resource
+
+**Estrutura de instalação:**
+```
+mods/deathmatch/
+└── resources/
+    └── [gangwar]/          ← Crie esta pasta se não existir
+        └── mta-gangwar/    ← Resource vai aqui
+            ├── Class/
+            ├── Inits/
+            ├── Shared/
+            └── meta.xml
+```
+
+**Opção A: Via Git (Recomendado)**
 ```bash
-cd /caminho/para/mta/server/mods/deathmatch/resources/
+cd /seu-servidor/mods/deathmatch/resources/[gangwar]/
 git clone https://github.com/TioMalandrex/mta-gangwar.git
 ```
 
-### Passo 2: Configurar Banco de Dados
+**Opção B: Download Direto**
+1. Baixe o ZIP do repositório
+2. Extraia para `/mods/deathmatch/resources/[gangwar]/mta-gangwar/`
 
-#### 2.1 Criar Banco de Dados MySQL
+**Seu caminho ficará assim:**
+```
+/seu-servidor/mods/deathmatch/resources/[gangwar]/mta-gangwar/
+```
+
+---
+
+### 🗄️ Passo 2: Configurar Banco de Dados
+
+**2.1 Criar o Banco de Dados**
+
+Abra seu MySQL/MariaDB e execute:
 
 ```sql
-CREATE DATABASE db_gangwar CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'dba_gangwar'@'localhost' IDENTIFIED BY 'SuaSenhaSegura';
-GRANT ALL PRIVILEGES ON db_gangwar.* TO 'dba_gangwar'@'localhost';
-FLUSH PRIVILEGES;
+CREATE DATABASE mta_gangwar;
 ```
 
-#### 2.2 Configurar Credenciais
+Pronto! As tabelas serão criadas automaticamente na primeira inicialização.
 
-⚠️ **IMPORTANTE - SEGURANÇA**: Não use as credenciais padrão em produção!
+---
 
-**Opção 1: Variáveis de Ambiente (Recomendado)**
-```bash
-export DB_NAME="db_gangwar"
-export DB_HOST="localhost"
-export DB_USER="dba_gangwar"
-export DB_PASSWORD="SuaSenhaSegura"
-export DB_PORT="3306"
-```
+### 🔧 Passo 3: Configurar Credenciais do Banco
 
-**Opção 2: Arquivo de Configuração**
+**Edite o arquivo:** `Class/Database.lua` (linha 23-28)
 
-Crie `config/database.lua` (adicionar ao `.gitignore`):
 ```lua
-return {
-    dbName = "db_gangwar",
-    host = "localhost",
-    user = "dba_gangwar",
-    password = "SuaSenhaSegura",
-    port = "3306",
-    typeConnection = "mysql"
-}
+-- Configurações do Banco de Dados
+static.dbName = "mta_gangwar"       -- ← Nome do seu banco
+static.host = "localhost"            -- ← Geralmente localhost
+static.user = "root"                 -- ← Seu usuário MySQL
+static.password = "sua_senha_aqui"   -- ← Sua senha MySQL
+static.port = "3306"                 -- ← Porta MySQL (padrão 3306)
+static.typeConnection = "mysql"      -- ← Deixe mysql
 ```
 
-Modifique `Class/Database.lua` para usar o arquivo:
+**Exemplo com suas credenciais:**
 ```lua
-local config = require("config.database")
-static.dbName = config.dbName
-static.host = config.host
-static.user = config.user
-static.password = config.password
-static.port = config.port
+static.dbName = "mta_gangwar"
+static.host = "localhost"
+static.user = "root"
+static.password = "minha123senha"
+static.port = "3306"
 ```
 
-### Passo 3: Instalar Recursos de Dependência
+⚠️ **Nota de Segurança:** Em produção, considere usar usuário específico ao invés de root.
 
-Certifique-se de ter todos os recursos listados em `meta.xml`:
-```bash
-# Baixe os resources necessários da comunidade MTA
-# Ou use os incluídos em [extras]
+---
+
+### ⚙️ Passo 4: Adicionar ao mtaserver.conf (Opcional)
+
+Para inicialização automática, adicione ao arquivo `mtaserver.conf`:
+
+```xml
+<resource src="mta-gangwar" startup="1" protected="0" />
 ```
 
-### Passo 4: Iniciar o Resource
+**Localização do arquivo:**
+- Linux: `/seu-servidor/mods/deathmatch/mtaserver.conf`
+- Windows: `C:\Program Files\MTA San Andreas\server\mods\deathmatch\mtaserver.conf`
 
-```bash
-# No console do servidor MTA
+---
+
+### 🚀 Passo 5: Iniciar o Resource
+
+**No console do servidor MTA, digite:**
+
+```
 start mta-gangwar
 ```
+
+**Ou, se já estava rodando:**
+```
+restart mta-gangwar
+```
+
+---
+
+### ✅ Verificação - Como Saber se Funcionou
+
+Após iniciar, verifique:
+
+1. **Console do servidor deve mostrar:**
+   ```
+   [INFO] Starting resource mta-gangwar
+   [INFO] Gang War System Loaded!
+   [INFO] Database connected successfully
+   ```
+
+2. **No jogo (F8 console):**
+   ```
+   resources    (deve listar mta-gangwar)
+   ```
+
+3. **Banco de dados deve ter 7 tabelas:**
+   - `tbl_accounts`
+   - `tbl_gangs`
+   - `tbl_bases`
+   - `tbl_properties`
+   - `tbl_areas`
+   - Etc.
+
+4. **Teste conectar:** Entre no servidor e veja a tela de login
+
+5. **Comandos funcionando:** Digite `/ajuda` ou `/comandos` no jogo
+
+---
+
+### 🔧 Problemas Comuns
+
+**❌ "ERROR: Unable to find resource 'mta-gangwar'"**
+- Verifique se a pasta está em `resources/[gangwar]/mta-gangwar/`
+- Certifique-se que `meta.xml` existe na raiz do resource
+
+**❌ "Database connection failed"**
+- Verifique credenciais em `Class/Database.lua`
+- Teste conexão MySQL: `mysql -u root -p`
+- Verifique se MySQL está rodando
+
+**❌ "Can't load resource 'mta-gangwar'"**
+- Verifique permissões das pastas
+- Veja arquivo `server.log` para erros detalhados
+
+**❌ "Resource started but no response"**
+- Verifique dependências em `meta.xml`
+- Baixe resources ausentes da comunidade MTA
+
+**❌ "Tabelas não foram criadas"**
+- Execute manualmente os SQLs de `database/` (se existir)
+- Ou importe schema manualmente
+
+**❌ "Players não conseguem conectar"**
+- Verifique ACL (Access Control List)
+- Teste com conta admin primeiro
 
 ---
 
