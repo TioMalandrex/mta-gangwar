@@ -30,9 +30,9 @@
 ### Características Principais
 
 - **🏆 Sistema de Gangues Completo**: 4 níveis hierárquicos (Convidado, Membro, Comandante, Líder)
-- **🗺️ 60+ Territórios**: Controle e domine territórios estratégicos no mapa
+- **🗺️ 93 Territórios**: 60 Territorios, 8 Gangzonas e 4 Villas distribuídos pelo mapa
 - **🏢 5 Bases Compráveis**: Bases com veículos, portões e recursos exclusivos
-- **🏠 50+ Propriedades**: Sistema de propriedades com renda passiva
+- **🏠 53 Propriedades**: Sistema de propriedades com renda passiva
 - **💰 Economia Balanceada**: Sistema completo de dinheiro, banco e transações
 - **🔫 Sistema de Combate**: Drive-by, pickups de armas e morte realista
 - **📊 Progressão**: Sistema de XP, níveis e rankings
@@ -89,7 +89,7 @@ Cada base inclui:
 - Pickups de armas
 - Sistema de respawn automático
 
-**Propriedades (50+ disponíveis):**
+**Propriedades (53 disponíveis):**
 - Lojas, hotéis, cassinos, clubes, motéis
 - Preços: $10,000 - $500,000
 - **Renda Passiva**: Ganhos automáticos a cada 10 minutos

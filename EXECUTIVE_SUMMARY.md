@@ -262,9 +262,9 @@ local hash = bcrypt.hash(password, 12)
 Arquivos Analisados:          100+
 Linhas de Código:             ~8,000+
 Classes Principais:           11
-Territórios Mapeados:         60+
+Territórios Mapeados:         93 (60+8+4)
 Bases Documentadas:           5
-Propriedades Identificadas:   50+
+Propriedades Identificadas:   53
 Recursos Extras:              20+
 Vulnerabilidades Encontradas: 10
 Documentação Gerada:          2,331 linhas

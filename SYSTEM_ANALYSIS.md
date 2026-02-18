@@ -805,7 +805,7 @@ end
 
 **Problema:**
 - Cada área dominada cria um timer
-- 60+ áreas = potencialmente 60+ timers ativos
+- 93 áreas = potencialmente 93 timers ativos
 
 **Recomendação:**
 - Usar um timer global que itera todas as áreas ativas
