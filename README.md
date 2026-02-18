@@ -282,56 +282,94 @@ Este README contém toda a informação essencial para começar. Para análises 
 | Documento | Descrição | Tamanho | Quando Usar |
 |-----------|-----------|---------|-------------|
 | **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 43 KB | Arquitetura, padrões, detalhes técnicos |
-| **[SECURITY_SUMMARY.md](SECURITY_SUMMARY.md)** | Relatório de segurança e vulnerabilidades | 13 KB | **ANTES** de ir para produção! |
+| **[SECURITY_REVISED.md](SECURITY_REVISED.md)** 🆕 | **Análise de segurança revisada (MTA context)** | 45 KB | **LEIA ANTES** de produção! |
+| **[~~SECURITY_SUMMARY.md~~](SECURITY_SUMMARY.md)** | ⚠️ Análise desatualizada (sem contexto MTA) | 13 KB | Substituída por SECURITY_REVISED.md |
 
-**Nota:** Este README agora consolida informações que antes estavam em múltiplos arquivos (DEVELOPER_GUIDE, DETAILED_ANALYSIS, EXECUTIVE_SUMMARY, MTA_SA_CONSIDERATIONS).
+**Nota:** Este README consolida informações que antes estavam em múltiplos arquivos. A análise de segurança foi **completamente revisada** considerando a arquitetura cliente-servidor do MTA:SA e repositório privado.
 
 ---
 
 ## 🔒 Segurança
 
-### ⚠️ AVISOS CRÍTICOS
+### 📋 Status Atualizado (Fevereiro 2026)
 
-Este sistema possui **vulnerabilidades de segurança críticas** que devem ser corrigidas antes de deploy em produção:
+A análise de segurança foi **revisada** considerando que:
+- 🎮 Este é um **gamemode MTA:SA** com arquitetura cliente-servidor
+- ✅ Arquivos server-side: Players têm **0 acesso** (seguros)
+- ⚠️ Arquivos client-side: Players podem modificar
+- 🔒 Repositório é **privado** (código não exposto)
 
-#### 🔴 CRÍTICO - MD5 Password Hashing
-**Problema**: Sistema usa MD5 para senhas (inseguro desde 2004)  
-**Localização**: `Class/Account.lua` linhas 115, 175  
-**Solução**: Migrar para bcrypt ou SHA-256 com salt
+### ✅ Vulnerabilidades Anteriores Reclassificadas
 
-#### 🔴 CRÍTICO - Credenciais Expostas
-**Problema**: Senha do banco hardcoded no código  
-**Localização**: `Class/Database.lua` linha 8  
-**Ação Imediata**: Rotacionar senha e usar variáveis de ambiente
+Muitas "vulnerabilidades críticas" da análise anterior **NÃO são problemas reais** no contexto MTA:
 
-#### 🔴 CRÍTICO - SQL Injection Potencial
-**Problema**: Concatenação de strings em queries  
-**Localização**: `Gang.lua` linha 827  
-**Solução**: Usar prepared statements exclusivamente
+| Vulnerabilidade | Status Anterior | Status Revisado | Motivo |
+|-----------------|-----------------|-----------------|---------|
+| Credenciais no código | 🔴 CRÍTICA | ✅ Mitigada | Server-side + repo privado |
+| MD5 hashing | 🔴 CRÍTICA | 🟡 Baixa | Server-side, players não veem |
+| SQL Injection | 🔴 CRÍTICA | ✅ Protegido | Prepared statements corretos |
 
-#### 🟠 ALTO - Rate Limiting Ausente
-**Problema**: Sem limite de tentativas de login  
-**Solução**: Implementar bloqueio após 5 tentativas
+### ⚠️ VULNERABILIDADES REAIS
 
-#### 🟠 ALTO - Senhas Fracas
-**Problema**: Senha mínima de 3 caracteres  
-**Solução**: Aumentar para 8+ caracteres com complexidade
+Após revisão, identificamos **1 vulnerabilidade ALTA** e **2 MÉDIAS** que devem ser corrigidas:
 
-### Checklist de Segurança
 
-Antes de colocar em produção:
+#### 🔴 ALTA - Rate Limiting Ausente
 
-- [ ] Substituir MD5 por bcrypt
-- [ ] Remover credenciais hardcoded
-- [ ] Rotacionar todas as senhas
-- [ ] Implementar rate limiting
-- [ ] Fortalecer política de senhas
-- [ ] Validar todos os inputs
-- [ ] Converter queries para async
-- [ ] Adicionar logging de segurança
-- [ ] Revisar permissões de eventos
+**Problema:** Eventos cliente-servidor sem rate limiting permitem DoS  
+**Localização:** `Inits/bank/BankSystem_s.lua`, `Account_s.lua`, etc.  
+**Impacto:** Player malicioso pode floodar servidor com milhares de triggers/segundo  
+**Solução:** Implementar cooldown de 500ms entre eventos
 
-**Leia [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md) para detalhes completos.**
+```lua
+local playerLastTrigger = {}
+local function checkRateLimit(player, eventName)
+    local now = getTickCount()
+    local key = player .. eventName
+    if (now - (playerLastTrigger[key] or 0)) < 500 then
+        return false  -- Bloqueado
+    end
+    playerLastTrigger[key] = now
+    return true
+end
+```
+
+#### 🟠 MÉDIA-ALTA - Validação de Valores Negativos
+
+**Problema:** Sistema bancário aceita valores negativos  
+**Localização:** `Inits/bank/BankSystem_s.lua` linhas 2-19  
+**Impacto:** Exploit permite gerar dinheiro infinito  
+**Solução:** Validar `quantity > 0` antes de processar
+
+```lua
+if not quantity or quantity <= 0 or quantity > 10000000 then
+    return -- Valor inválido
+end
+```
+
+#### 🟡 MÉDIA - Política de Senha Fraca
+
+**Problema:** Senha mínima de 3 caracteres  
+**Localização:** `Class/Account.lua` linha 20  
+**Solução:** Aumentar para 6-8 caracteres
+
+### ✅ Checklist de Segurança (Revisado)
+
+Antes de produção (OBRIGATÓRIO):
+
+- [ ] **Implementar rate limiting** em eventos cliente-servidor (URGENTE)
+- [ ] **Validar valores negativos** em sistema bancário (URGENTE)
+- [ ] **Aumentar senha mínima** para 6-8 caracteres (RECOMENDADO)
+- [ ] Implementar logging de segurança
+- [ ] Testar exploits conhecidos
+
+Melhorias futuras (OPCIONAL):
+
+- [ ] Migrar MD5 → SHA-256 ou bcrypt
+- [ ] Usar variáveis de ambiente para DB
+- [ ] Adicionar sistema anti-cheat
+
+**Leia [SECURITY_REVISED.md](SECURITY_REVISED.md) para análise completa e códigos de correção.**
 
 ---
 
