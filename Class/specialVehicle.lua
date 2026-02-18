@@ -65,8 +65,8 @@ function specialVehicle:onVehicleStartEnter(player)
         
         -- Check if vehicle has an owner
         if not self.owner then
-            outputChatBox("[BASE] Este veículo não pertence a nenhuma gang.", player, 255, 0, 0, true)
             cancelEvent()
+            outputChatBox("[BASE] Este veículo não pertence a nenhuma gang.", player, 255, 0, 0, true)
             return
         end
         
