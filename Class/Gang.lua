@@ -778,7 +778,7 @@ function Gang.getTops()
 			table.insert(topGang, gang)
 		end
     end	
-    table.sort(topGang, function (a, b) return a > b end)
+    table.sort(topGang, function (a, b) return a:getXP() > b:getXP() end)
     for index,instance in pairs(topGang)do
         local r,g,b = instance:getColor()
         if(index == 10) then
