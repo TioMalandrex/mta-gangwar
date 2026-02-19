@@ -236,7 +236,6 @@ function Account:loadAccount(player, username)
 	player:setData("vip_account",vip)
 	player:outputChat("#FF6464[BANCO]#00FF00 Saldo atual: "..tostring(balance).."$", 255, 255, 0, true)
 	player:setData("account", username)
-	player:setName(username)
 	
 	Gang.onPlayerLogin(player,gang,level)
 	--exports.Gang:onPlayerEnterGang(player, gang, level)
@@ -273,7 +272,6 @@ end
 
 function Account:loadNewAccount(player)
 	Spawn.getInstance():spawnPlayerAccount(player,"default")
-	player:setName(player:getData("account"))
 	player:setData("kills", 0)
 	player:setData("deaths", 0)
 	player:setData("ratio", 0)
