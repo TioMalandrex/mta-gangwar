@@ -244,14 +244,14 @@ function Account:loadAccount(player, username)
 	
 	removeAllPedClothes(player)
 	if result.clothes then
-		for _, clothe in pairs(fromJSON(result.clothes) or {}) do
+		for _, clothe in pairs(fromJSON(result.clothes)) do
 	        local type, texture, model = unpack(clothe)
 	        player:addClothes(texture,model,type)
 	    end
 	end
 	
 	if result.weapons then
-		for weapon,ammo in pairs(fromJSON(result.weapons) or {}) do
+		for weapon,ammo in pairs(fromJSON(result.weapons)) do
 			 player:giveWeapon(weapon, ammo)
 		end
 	end

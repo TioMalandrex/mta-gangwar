@@ -212,7 +212,7 @@ function Spawn.onPlayerWasted(_,killer)
 	local playerDeaths = source:getData("deaths") or 0
 	local playerKills = source:getData("kills") or 0
 	source:setData("deaths", playerDeaths + 1)
-	source:setData("ratio", (playerDeaths > 0 and round(playerKills / playerDeaths, 2) or 0))
+	source:setData("ratio", ((playerDeaths + 1) > 0 and round(playerKills / (playerDeaths + 1), 2) or 0))
 end
 addEventHandler("onPlayerWasted", root, Spawn.onPlayerWasted)
 
