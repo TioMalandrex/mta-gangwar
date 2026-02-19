@@ -273,12 +273,12 @@ function Base:onPlayerSendBuy(player)
 						if(Gang.getFromMember(player):getXP() >= Base.XP_TO_BUY) then
 						
 						if(self.owner and self.owner ~= team.name) then
-							local oldOwner = getTeamFromName(ownerName)
+							local oldOwner = getTeamFromName(self.owner)
 							if (oldOwner) then
 								if(oldOwner.playerCount >= 1) then
 									local gPlayers = {}
 									for k, v in ipairs(getPlayersInTeam(oldOwner)) do
-										outputChatBox("#FF6464[BASE]#00FF00 Sua base foi comprada pela gang "..owner:getName(), v, 255, 255, 0, true)
+										outputChatBox("#FF6464[BASE]#00FF00 Sua base foi comprada pela gang "..team.name, v, 255, 255, 0, true)
 										table.insert(gPlayers, v)
 									end
 									table.sort(gPlayers, function(a,b)
@@ -287,7 +287,7 @@ function Base:onPlayerSendBuy(player)
 									if(#gPlayers>0) then
 										gPlayers[1]:giveMoney(self.cost)
 										for i,k in pairs(getPlayersInTeam(oldOwner)) do
-											outputChatBox("#FF6464[BASE]#00FF00 O dinheiro da base foi para:#FF6464 "..gPlayers[1], k, 255, 255, 0, true)
+											outputChatBox("#FF6464[BASE]#00FF00 O dinheiro da base foi para:#FF6464 "..gPlayers[1]:getName(), k, 255, 255, 0, true)
 										end
 									end
 								end

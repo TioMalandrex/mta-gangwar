@@ -165,7 +165,7 @@ function Area.getOwnerXp(gangName)
 end
 
 function Area.getByName(name)
-	for index,instance in pairs (Area.instances.table) do
+	for index,instance in pairs (Area.instances) do
 		if (instance.name == name) then
 			return instance;
 		end

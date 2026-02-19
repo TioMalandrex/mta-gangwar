@@ -90,7 +90,7 @@ function updateTurf(gangName)
 end
 
 function getAllAreas()
-    return Area.instances.table
+    return Area.instances
 end
 
 function getOwnerXp(gangName)
@@ -100,7 +100,7 @@ function getOwnerXp(gangName)
 end
 
 function saveAreas()
-    for index,instance in pairs(Area.instances.table) do
+    for index,instance in pairs(Area.instances) do
 	    Area.database:Exec('UPDATE Areas SET owner=?, color=? WHERE name=?', instance.owner, toJSON({instance.radarArea:getColor()}), instance.name)
 	end
 end

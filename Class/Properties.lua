@@ -280,8 +280,8 @@ function Properties.onResourceStart()
 	end,Properties.timeReceiveLucre,0)
 end
 
-function table.contains(table, element)
-	for _, value in pairs(table) do
+function table.contains(tbl, element)
+	for _, value in pairs(tbl) do
 	  if value == element then
 		return true
 	  end

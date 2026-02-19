@@ -197,7 +197,7 @@ end
 function Account:loadAccount(player, username)
 	local idAccount = Account.database:select("id"):where("username",username):getSingle().id
 	local result = Database("tbl_users_data"):select():where("id_account",idAccount):getAll()[1]
-	if not (result.position) then
+	if not result or not (result.position) then
 		self:loadNewAccount(player)
 		return
 	end
@@ -236,20 +236,23 @@ function Account:loadAccount(player, username)
 	player:setData("vip_account",vip)
 	player:outputChat("#FF6464[BANCO]#00FF00 Saldo atual: "..tostring(balance).."$", 255, 255, 0, true)
 	player:setData("account", username)
-	player:setName(username)
 	
 	Gang.onPlayerLogin(player,gang,level)
 	--exports.Gang:onPlayerEnterGang(player, gang, level)
 	--exports.Spawn:setPlayerBlip(player)
 	
 	removeAllPedClothes(player)
-	for _, clothe in pairs(fromJSON(result.clothes)) do
-        local type, texture, model = unpack(clothe)
-        player:addClothes(texture,model,type)
-    end
+	if result.clothes then
+		for _, clothe in pairs(fromJSON(result.clothes)) do
+	        local type, texture, model = unpack(clothe)
+	        player:addClothes(texture,model,type)
+	    end
+	end
 	
-	for weapon,ammo in pairs(fromJSON(result.weapons)) do
-		 player:giveWeapon(weapon, ammo)
+	if result.weapons then
+		for weapon,ammo in pairs(fromJSON(result.weapons)) do
+			 player:giveWeapon(weapon, ammo)
+		end
 	end
 	
 	if (player:getInterior() ~= 0) then
@@ -269,7 +272,6 @@ end
 
 function Account:loadNewAccount(player)
 	Spawn.getInstance():spawnPlayerAccount(player,"default")
-	player:setName(player:getData("account"))
 	player:setData("kills", 0)
 	player:setData("deaths", 0)
 	player:setData("ratio", 0)

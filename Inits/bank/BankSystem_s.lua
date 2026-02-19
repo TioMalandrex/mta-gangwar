@@ -1,46 +1,64 @@
+local bankRateLimit = {}
+local BANK_RATE_LIMIT_MS = 500
+local BANK_MAX_AMOUNT = 10000000
+
+local function checkBankRateLimit(player)
+    local now = getTickCount()
+    if (now - (bankRateLimit[player] or 0)) < BANK_RATE_LIMIT_MS then
+        return false
+    end
+    bankRateLimit[player] = now
+    return true
+end
+
+addEventHandler("onPlayerQuit", root, function()
+    bankRateLimit[source] = nil
+end)
+
 addEvent("onPlayerWithdraw",true)
 addEventHandler("onPlayerWithdraw",root,function (quantity)
+    if not checkBankRateLimit(client) then return end
     local quantity = tonumber(quantity)
-    if(quantity) then
-        local bankBalance = client:getData("bank_balance") or 0
-        if(bankBalance >= quantity) then
-            givePlayerMoney( client, quantity)
-            client:setData("bank_balance",tonumber(bankBalance - quantity))
-            playSoundFrontEnd(client,6)
-            triggerClientEvent(client,"updatePlayerInfoBank",client)
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro sacado com sucesso:#1712e6$"..quantity,client,255,255,255,true)
-        else
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para sacar.",client,255,255,255,true)
-    
-        end
-    else
+    if not quantity or quantity <= 0 or quantity > BANK_MAX_AMOUNT then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme uma quantidade valida.",client,255,255,255,true)
+        return
+    end
+    local bankBalance = client:getData("bank_balance") or 0
+    if(bankBalance >= quantity) then
+        givePlayerMoney( client, quantity)
+        client:setData("bank_balance",tonumber(bankBalance - quantity))
+        playSoundFrontEnd(client,6)
+        triggerClientEvent(client,"updatePlayerInfoBank",client)
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro sacado com sucesso:#1712e6$"..quantity,client,255,255,255,true)
+    else
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para sacar.",client,255,255,255,true)
     end
 end)
 
 addEvent("onPlayerDeposit",true)
 addEventHandler("onPlayerDeposit",root,function (quantity)
+    if not checkBankRateLimit(client) then return end
     local quantity = tonumber(quantity)
-    if(quantity) then
-        local bankBalance = client:getData("bank_balance") or 0
-        if(quantity > 0 and quantity <= client:getMoney()) then
-            takePlayerMoney( client, quantity)
-            playSoundFrontEnd(client,6)
-            client:setData("bank_balance",tonumber(bankBalance + quantity))
-            triggerClientEvent(client,"updatePlayerInfoBank",client)
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro depositado com sucesso:#1712e6$"..quantity,client,255,255,255,true)
-        else
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para depositar.",client,255,255,255,true)
-    
-        end
-    else
+    if not quantity or quantity <= 0 or quantity > BANK_MAX_AMOUNT then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme uma quantidade válida.",client,255,255,255,true)
+        return
+    end
+    local bankBalance = client:getData("bank_balance") or 0
+    if(quantity <= client:getMoney()) then
+        takePlayerMoney( client, quantity)
+        playSoundFrontEnd(client,6)
+        client:setData("bank_balance",tonumber(bankBalance + quantity))
+        triggerClientEvent(client,"updatePlayerInfoBank",client)
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro depositado com sucesso:#1712e6$"..quantity,client,255,255,255,true)
+    else
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para depositar.",client,255,255,255,true)
     end
 end)
 
 
 addEvent("onPlayerTransfer",true)
 addEventHandler("onPlayerTransfer",root,function (toPlayer,quantity)
+    if not checkBankRateLimit(client) then return end
     if not toPlayer then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme um player válido.",client,255,255,255,true)
         return
@@ -59,21 +77,21 @@ addEventHandler("onPlayerTransfer",root,function (toPlayer,quantity)
          outputChatBox( "#1712e6[BANCO]:#FFFFFFNão é permitido transferir para você mesmo.",client,255,255,255,true)
          return
     end
-    if(quantity) then
-        local clientBalance = client:getData("bank_balance") or 0
-        local playerBalance = playerElement:getData("bank_balance") or 0
-        if(clientBalance >= quantity) then
-            client:setData("bank_balance",tonumber(clientBalance-quantity))
-            playerElement:setData("bank_balance",tonumber(playerBalance + quantity))
-            playSoundFrontEnd(client,6)
-            triggerClientEvent(client,"updatePlayerInfoBank",client)
-            triggerClientEvent(playerElement,"updatePlayerInfoBank",playerElement)
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro transferido para conta: ."..playerElement.name.."#FFFFFF valor: #1712e6$"..quantity,client,255,255,255,true)
-        else
-            outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para transferir.",client,255,255,255,true)
-        end
-    else
+    if not quantity or quantity <= 0 or quantity > BANK_MAX_AMOUNT then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme uma quantidade válida.",client,255,255,255,true)
+        return
+    end
+    local clientBalance = client:getData("bank_balance") or 0
+    local playerBalance = playerElement:getData("bank_balance") or 0
+    if(clientBalance >= quantity) then
+        client:setData("bank_balance",tonumber(clientBalance-quantity))
+        playerElement:setData("bank_balance",tonumber(playerBalance + quantity))
+        playSoundFrontEnd(client,6)
+        triggerClientEvent(client,"updatePlayerInfoBank",client)
+        triggerClientEvent(playerElement,"updatePlayerInfoBank",playerElement)
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro transferido para conta: "..playerElement.name.."#FFFFFF valor: #1712e6$"..quantity,client,255,255,255,true)
+    else
+        outputChatBox( "#1712e6[BANCO]:#FFFFFFDinheiro insuficiente para transferir.",client,255,255,255,true)
     end
 end)
 
@@ -110,6 +128,21 @@ local markerPosition = {
 	{-23.06417, -54.83274, 1003.54688, 1, 6}
 }
 
+local function bankHit(hitElement, matchingDimension)
+    if (hitElement:getType() == "player") then
+        if (matchingDimension) then
+            triggerClientEvent(hitElement, "onPlayerBankHit", hitElement)
+        end
+    end
+end
+
+local function bankLeave(hitElement, matchingDimension)
+    if (hitElement:getType() == "player") then
+        if (matchingDimension) then
+            triggerClientEvent(hitElement, "onPlayerBankLeave", hitElement)
+        end
+    end
+end
 
 addEventHandler("onResourceStart", resourceRoot, function()
 	for i, v in pairs (blipPosition) do
@@ -120,23 +153,8 @@ addEventHandler("onResourceStart", resourceRoot, function()
 		local marker = createMarker(v[1], v[2], v[3] - 1, "cylinder", 2.0, 0, 255, 0, 200)
 		marker:setDimension(v[4])
 		marker:setInterior(v[5])
-		function bankHit(hitElement, matchingDimension)
-			if (hitElement:getType() == "player") then
-				if (matchingDimension) then
-					triggerClientEvent(hitElement, "onPlayerBankHit", hitElement)
-				end
-			end
-        end
-        function bankLeave(hitElement,matchingDimension)
-            if (hitElement:getType() == "player") then
-				if (matchingDimension) then
-					triggerClientEvent(hitElement, "onPlayerBankLeave", hitElement)
-				end
-			end
-        end
-        addEventHandler("onMarkerHit", marker, bankHit) 
-        
-		addEventHandler("onMarkerLeave", marker, bankLeave) 
+        addEventHandler("onMarkerHit", marker, bankHit)
+		addEventHandler("onMarkerLeave", marker, bankLeave)
 	end
 end)
 
