@@ -204,15 +204,15 @@ function Spawn.onPlayerWasted(_,killer)
 	setTimer(Spawn.getInstance().spawnPlayer, Spawn.SPAWN_TIME, 1, source);
 	
 	if killer and killer ~= source then 
-		local killerKill = killer:getData("kills")
-		local killerDeaths = killer:getData("deaths")
-		killer:setData("kills",killerKill+1)
-		killer:setData("ratio",round(killerKill/killerDeaths,2))
+		local killerKill = killer:getData("kills") or 0
+		local killerDeaths = killer:getData("deaths") or 0
+		killer:setData("kills", killerKill + 1)
+		killer:setData("ratio", (killerDeaths > 0 and round((killerKill + 1) / killerDeaths, 2) or killerKill + 1))
 	end
-	local playerDeaths = source:getData("deaths")
-	local playerKills = source:getData("kills")
-	source:setData("deaths", playerDeaths+1)
-	source:setData("ratio",round( playerKills/playerDeaths,2))
+	local playerDeaths = source:getData("deaths") or 0
+	local playerKills = source:getData("kills") or 0
+	source:setData("deaths", playerDeaths + 1)
+	source:setData("ratio", (playerDeaths > 0 and round(playerKills / playerDeaths, 2) or 0))
 end
 addEventHandler("onPlayerWasted", root, Spawn.onPlayerWasted)
 

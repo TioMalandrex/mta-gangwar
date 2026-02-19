@@ -197,7 +197,7 @@ end
 function Account:loadAccount(player, username)
 	local idAccount = Account.database:select("id"):where("username",username):getSingle().id
 	local result = Database("tbl_users_data"):select():where("id_account",idAccount):getAll()[1]
-	if not (result.position) then
+	if not result or not (result.position) then
 		self:loadNewAccount(player)
 		return
 	end
@@ -243,13 +243,17 @@ function Account:loadAccount(player, username)
 	--exports.Spawn:setPlayerBlip(player)
 	
 	removeAllPedClothes(player)
-	for _, clothe in pairs(fromJSON(result.clothes)) do
-        local type, texture, model = unpack(clothe)
-        player:addClothes(texture,model,type)
-    end
+	if result.clothes then
+		for _, clothe in pairs(fromJSON(result.clothes) or {}) do
+	        local type, texture, model = unpack(clothe)
+	        player:addClothes(texture,model,type)
+	    end
+	end
 	
-	for weapon,ammo in pairs(fromJSON(result.weapons)) do
-		 player:giveWeapon(weapon, ammo)
+	if result.weapons then
+		for weapon,ammo in pairs(fromJSON(result.weapons) or {}) do
+			 player:giveWeapon(weapon, ammo)
+		end
 	end
 	
 	if (player:getInterior() ~= 0) then

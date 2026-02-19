@@ -480,12 +480,12 @@ function (player, command, type,...)
 
             if(targetElement) then
                 if(gang:isMember(targetElement)) then
-                    player:outputChat("#FF6464[GANG]#00FF00 O jogador #FF6464"..target.name.."#00FF00 já esta na gang!", 0, 255, 0, true)
+                    player:outputChat("#FF6464[GANG]#00FF00 O jogador #FF6464"..targetElement.name.."#00FF00 já esta na gang!", 0, 255, 0, true)
                     return false
                 end
                 if not (targetElement:getData("convite-data") == gang:getName()) then
                             setTimer(function()
-                                if (isElement(target)) then
+                                if (isElement(targetElement)) then
                                     if (targetElement:getData("convite-data")) then
                                         targetElement:removeData("convite-data")
                                     end
