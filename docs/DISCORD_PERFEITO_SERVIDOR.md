@@ -253,6 +253,8 @@ Criar um Discord organizado para:
 
 Criar 10 blocos de canais, um por gang, por exemplo:
 
+> Nota: "10 gangues" é uma configuração-base para servidor grande e pode ser ajustada (ex.: 8, 12, 15) conforme a demanda real.
+
 - `#gang-01-chat`
 - `#gang-01-avisos`
 - `🔊 gang-01-voz`
@@ -283,6 +285,7 @@ Permissões sugeridas:
 #### Recomendação operacional
 
 - Quando uma gang for desativada, arquivar os canais ao invés de apagar.
+- Retenção sugerida para canais arquivados: 30-60 dias; após isso, exportar logs relevantes e remover para evitar acúmulo.
 - Manter um canal staff de mapeamento: `#mapa-cargos-gang` com:
   - nome da gang,
   - líder atual,
@@ -362,6 +365,7 @@ Requisitos:
 
 2) Defina permissões por cargo:
    - Novato, Membro, VIP, Helper, Moderador, Admin, Diretor, Dono, Dev
+   - substituir o cargo genérico "Líder de Gang" por cargos segmentados por gang para isolamento de permissões.
    - Líder Gang XX, Oficial Gang XX, Membro Gang XX (para XX = 01..10)
    - cada gang só acessa seus próprios canais; staff acessa todos para auditoria.
 
