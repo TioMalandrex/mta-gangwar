@@ -111,31 +111,31 @@ Criar um Discord organizado para:
 
 ## Versão detalhada (cargos + canais de texto e voz)
 
-## Cargos detalhados (hierarquia sugerida)
+### Cargos detalhados (hierarquia sugerida)
 
-### Administração
+#### Administração
 - **👑 Dono**: controle total do servidor e integrações.
 - **🛠️ Diretor**: gestão estratégica, supervisão de staff.
 - **⚙️ Admin**: gerencia canais, cargos, punições e bots.
 
-### Operação/Moderação
+#### Operação/Moderação
 - **🛡️ Coordenador de Moderação**: padrão de punições, auditoria de staff.
 - **🔨 Moderador**: atendimento de denúncias, moderação de chat/voz.
 - **🧹 Helper**: dúvidas rápidas, encaminhamento para ticket.
 
-### Conteúdo e Comunidade
+#### Conteúdo e Comunidade
 - **📣 Social Media**: anúncios, teasers, comunicação externa.
 - **🎉 Host de Eventos**: organização de eventos e campeonatos.
 - **🎨 Designer**: mídia visual, banners, posts oficiais.
 
-### Técnico
+#### Técnico
 - **💻 Desenvolvedor**: acesso técnico, changelog, roadmap.
 - **🧪 QA/Tester**: validação de bugs e reproduções.
 
-### Economia/Loja
+#### Economia/Loja
 - **💰 Financeiro**: pagamentos, VIP, suporte comercial.
 
-### Comunidade
+#### Comunidade
 - **🌟 VIP**
 - **🏴 Líder de Gang**
 - **⚔️ Membro de Gang**
@@ -145,9 +145,9 @@ Criar um Discord organizado para:
 
 ---
 
-## Canais de texto detalhados (o que ter em cada um)
+### Canais de texto detalhados (o que ter em cada um)
 
-## 📌 BOAS-VINDAS E ENTRADA
+#### 📌 BOAS-VINDAS E ENTRADA
 - `#bem-vindo`  
   **Conteúdo:** proposta do servidor, links principais, botão de entrada.
 - `#leia-primeiro`  
@@ -159,7 +159,7 @@ Criar um Discord organizado para:
 - `#cargos`  
   **Conteúdo:** auto-roles (notícias, eventos, recrutamento).
 
-## 📢 INFORMAÇÕES OFICIAIS
+#### 📢 INFORMAÇÕES OFICIAIS
 - `#anúncios`  
   **Conteúdo:** comunicados importantes (somente staff).
 - `#changelog`  
@@ -171,7 +171,7 @@ Criar um Discord organizado para:
 - `#faq-oficial`  
   **Conteúdo:** dúvidas recorrentes com respostas fixadas.
 
-## 🎮 COMUNIDADE E GAMEPLAY
+#### 🎮 COMUNIDADE E GAMEPLAY
 - `#chat-geral`  
   **Conteúdo:** conversa aberta com moderação.
 - `#chat-gangues`  
@@ -187,7 +187,7 @@ Criar um Discord organizado para:
 - `#enquetes`  
   **Conteúdo:** votações oficiais da comunidade.
 
-## 🆘 SUPORTE
+#### 🆘 SUPORTE
 - `#dúvidas`  
   **Conteúdo:** perguntas rápidas e respostas da staff/helper.
 - `#report-bugs`  
@@ -199,7 +199,7 @@ Criar um Discord organizado para:
 - `#status-dos-tickets`  
   **Conteúdo:** painel automático (bot) de tickets abertos/fechados.
 
-## 🛡️ STAFF (PRIVADO)
+#### 🛡️ STAFF (PRIVADO)
 - `#staff-chat`
 - `#triagem-suporte`
 - `#mod-alertas`
@@ -212,9 +212,9 @@ Criar um Discord organizado para:
 
 ---
 
-## Canais de voz detalhados
+### Canais de voz detalhados
 
-## Públicos
+#### Públicos
 - `🔊 Geral 1` (sem limite)
 - `🔊 Geral 2` (sem limite)
 - `🔊 Squad 1` (limite 5)
@@ -222,15 +222,15 @@ Criar um Discord organizado para:
 - `🔊 Guerra 10v10` (limite 10)
 - `🔊 Guerra 20v20` (limite 20)
 
-## Comunidade/Eventos
+#### Comunidade/Eventos
 - `🎤 Palco - Avisos` (stage)
 - `🎉 Evento Aberto` (temporário durante eventos)
 
-## Suporte
+#### Suporte
 - `🆘 Suporte por Voz 1` (ticket assistido)
 - `🆘 Suporte por Voz 2` (ticket assistido)
 
-## Privados
+#### Privados
 - `🔒 Staff Voice`
 - `🔒 Reunião Staff`
 - `🔒 Dev/QA`
