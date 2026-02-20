@@ -63,7 +63,7 @@ Exemplos:
 - **Arquivos-chave:** `Class/Database.lua`
 - **Status:** 🟢 Funcional
 - **Como está:**
-  - camada OOP para `select/insert/update/delete`.
+  - camada OOP (programação orientada a objetos) para `select/insert/update/delete`.
   - conexão padrão configurada para MySQL (`typeConnection = "mysql"`).
   - fallback SQLite existe no código.
 - **Conecta com:** Account, Gang, Area, Base, Properties.
@@ -190,7 +190,7 @@ Exemplos:
 - **Status:** 🟢 Funcional
 - **Como está:**
   - compra/venda de propriedades.
-  - lucro periódico por timer (`timeReceiveLucre = 600000`).
+  - lucro periódico por timer (`timeReceiveLucre = 600000ms`, ou seja, 10 minutos).
   - persistência de owner em `tbl_properties`.
 - **Conecta com:** Account (owner/money), Bank (conceitualmente, mas o lucro atual cai em money do player).
 - **Não conecta com:** gangue (sem propriedade de gang).
@@ -322,6 +322,7 @@ Legenda: ✅ conectado | ⚠️ parcial | ❌ não conectado
    - fase 1: ativar módulo + app de status;
    - fase 2: integrar banco/info de player;
    - fase 3: integrar turf/map/chat.
+   - ação recomendada: abrir uma issue/epic única para "Reativação Phone" com checklist por fase.
 
 4. **Hardening técnico**
    - reforçar validações de eventos críticos;
