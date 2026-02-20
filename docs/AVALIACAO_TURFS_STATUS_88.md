@@ -149,3 +149,65 @@ As duas melhorias propostas são **viáveis** e **compatíveis com a arquitetura
 - **Cooldown anti ping-pong**: recomendada para qualidade de experiência e equilíbrio.
 
 Com essas duas entregas, o status de 88% é coerente e há caminho claro para evolução com baixo risco.
+
+---
+
+## Implementação realizada (atualização)
+
+As alterações abaixo foram aplicadas no código, conforme esta avaliação:
+
+### ✅ 1) Persistência imediata de owner
+
+Arquivo alterado:
+- `Class/Area.lua`
+
+O que foi implementado:
+
+1. Novo método `Area:persistOwnerNow()`:
+   - faz `insert` quando a área ainda não existe em `tbl_gang_areas`;
+   - faz `update` de `owner` e `type` quando já existe.
+
+2. `Area:setOwner(...)` agora:
+   - detecta mudança real de owner (`previousOwner ~= self.owner`);
+   - persiste imediatamente no banco quando há alteração;
+   - loga erro de persistência via `outputDebugString` se falhar.
+
+Resultado prático:
+- reduz risco de perda de conquistas recentes em caso de crash entre conquistas e `onResourceStop`.
+
+### ✅ 2) Cooldown anti ping-pong com `lastCaptureTick`
+
+Arquivo alterado:
+- `Class/Area.lua`
+
+O que foi implementado:
+
+1. Nova constante:
+   - `Area.CAPTURE_COOLDOWN = 60000` (1 minuto).
+
+2. Novo estado por área:
+   - `self.lastCaptureTick = 0` em `Area:init(...)`.
+
+3. Guarda de cooldown em `onColShapeHit`:
+   - antes de iniciar dominação, verifica tempo desde última captura;
+   - se em cooldown, bloqueia o início e envia mensagem ao jogador com segundos restantes.
+
+4. Atualização do tick de captura:
+   - quando o owner muda para uma gang (`setOwner`), atualiza `lastCaptureTick`.
+
+### ✅ 3) Ajuste de bootstrap para não gerar cooldown falso no start
+
+Arquivo alterado:
+- `Class/Area.lua`
+
+Implementado:
+- flag `Area.isBootstrapping` durante `onResourceStart`;
+- enquanto o recurso está carregando dados salvos, não aplica persistência imediata/cooldown de recaptura como se fossem conquistas novas.
+
+---
+
+## Estado após implementação
+
+- Persistência imediata: **implementada**.
+- Cooldown de 1 minuto pós-captura: **implementado** (em memória).
+- Persistência de cooldown em DB após restart/crash: **não implementada** (continua opcional, como previsto na avaliação).

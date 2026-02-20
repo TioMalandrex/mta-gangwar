@@ -101,6 +101,8 @@ local super = Class("Area", LuaObject, function ()
 	static.EXP_MIN_VILLAGE = 11000
 	static.EXP_MIN_BUY_BASE = 12000
 	static.POINTS_DEFENSER = 500
+	static.CAPTURE_COOLDOWN = 60000
+	static.isBootstrapping = false
 
 end).getSuperclass()
 
@@ -208,6 +210,7 @@ function Area:init(name, type, xp, owner, posX, posY, posZ, width, height, r, g,
 
 
 	self.timer = {}
+	self.lastCaptureTick = 0
 	self.source = self.colShape
 	   
 	self.onPlayerHitArea = function(hitElement, matchingDimension)
@@ -216,23 +219,28 @@ function Area:init(name, type, xp, owner, posX, posY, posZ, width, height, r, g,
 	        if (team) then
 	            if not (self.owner  == team.name) then
 	                if not (self:isOnAttack()) then
-						if (self.type == "gangzona") then
-							local xp = team:getData("xp")
-							if (xp >= Area.EXP_MIN_GANG_ZONA) then
+						local cooldownLeft = Area.CAPTURE_COOLDOWN - (getTickCount() - self.lastCaptureTick)
+						if self.lastCaptureTick > 0 and cooldownLeft > 0 then
+							hitElement:outputChat("#FF6464[TURF]#00FF00 Esta zona está em cooldown de recaptura. Aguarde "..math.ceil(cooldownLeft/1000).."s.", 255, 255, 255, true)
+						else
+							if (self.type == "gangzona") then
+								local xp = team:getData("xp")
+								if (xp >= Area.EXP_MIN_GANG_ZONA) then
+									self:startDomination(team)
+								else
+									hitElement:outputChat("#FF6464[GANGZONE]#00FF00 A sua gang precisa de "..Area.EXP_MIN_GANG_ZONA.." xp para dominar essa gang zona", 255, 255, 255, true)
+								end
+							elseif (self.type == "villa") then
+								local xp = team:getData("xp")
+								if (xp >= Area.EXP_MIN_VILLAGE) then
+									self:startDomination(team)
+								else
+									hitElement:outputChat("#FF6464[VILLA]#00FF00 A sua gang precisa de "..Area.EXP_MIN_VILLAGE.." xp para dominar essa villa", 255, 255, 255, true)
+								end
+							elseif (self.type == "territorio") then
 								self:startDomination(team)
-							else
-								hitElement:outputChat("#FF6464[GANGZONE]#00FF00 A sua gang precisa de "..Area.EXP_MIN_GANG_ZONA.." xp para dominar essa gang zona", 255, 255, 255, true)
 							end
-	                    elseif (self.type == "villa") then
-	                        local xp = team:getData("xp")
-							if (xp >= Area.EXP_MIN_VILLAGE) then
-								self:startDomination(team)
-	                        else
-	                            hitElement:outputChat("#FF6464[VILLA]#00FF00 A sua gang precisa de "..Area.EXP_MIN_VILLAGE.." xp para dominar essa villa", 255, 255, 255, true)
-	                        end
-                        elseif (self.type == "territorio") then
-							self:startDomination(team)
-	                    end
+						end
 	                end
 	            end
 			end
@@ -474,7 +482,24 @@ function Area.refreshAll()
 	end
 end
 
+function Area:persistOwnerNow()
+	local result = Area.database:select("name"):where("name", self.name):getSingle()
+	if not result then
+		return Area.database:insert({
+			['name'] = self.name,
+			['owner'] = self.owner,
+			['type'] = self.type
+		}):execute()
+	end
+
+	return Area.database:update({
+		['owner'] = (self.owner and self.owner or "NULL"),
+		['type'] = self.type
+	}):where("name", self.name):execute()
+end
+
 function Area:setOwner(team)
+	local previousOwner = self.owner
     if not team then
         self.radarArea:setColor(160,160,160,190)
         self.source:setData("owner",nil)
@@ -534,6 +559,15 @@ function Area:setOwner(team)
             end
         end
     end
+
+	if previousOwner ~= self.owner and not Area.isBootstrapping then
+		if self.owner then
+			self.lastCaptureTick = getTickCount()
+		end
+		if not self:persistOwnerNow() then
+			outputDebugString("ERROR SAVE AREA OWNER: "..tostring(self.name), 1)
+		end
+	end
 end
 
 
@@ -643,6 +677,7 @@ end)
 
 addEventHandler("onResourceStart", resourceRoot,
 function ()
+	Area.isBootstrapping = true
 	
 	--	{'DilliMore' , 600.664794, -614.969848, 16.1875, 241.034302, 126.765106, 10000, 'villa' }
 		for index,value in pairs (Area.DATA)do
@@ -664,6 +699,7 @@ function ()
 				end
 			end
 		end
+	Area.isBootstrapping = false
 	
 
 	
