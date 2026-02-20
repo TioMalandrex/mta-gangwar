@@ -101,7 +101,7 @@ local super = Class("Area", LuaObject, function ()
 	static.EXP_MIN_VILLAGE = 11000
 	static.EXP_MIN_BUY_BASE = 12000
 	static.POINTS_DEFENSER = 500
-	static.CAPTURE_COOLDOWN = 60000
+	static.CAPTURE_COOLDOWN = 60000 -- milliseconds (60 seconds)
 	static.isBootstrapping = false
 
 end).getSuperclass()
@@ -565,7 +565,7 @@ function Area:setOwner(team)
 			self.lastCaptureTick = getTickCount()
 		end
 		if not self:persistOwnerNow() then
-			outputDebugString("ERROR SAVE AREA OWNER: "..tostring(self.name), 1)
+			outputDebugString("ERROR SAVE AREA OWNER: name="..tostring(self.name).." owner="..tostring(self.owner), 1)
 		end
 	end
 end
