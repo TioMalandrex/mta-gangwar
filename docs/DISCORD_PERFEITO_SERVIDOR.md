@@ -350,37 +350,128 @@ Permissões sugeridas:
 ## Prompt final (IA para criar o Discord)
 
 ```text
-Crie a estrutura completa de um servidor Discord para um servidor MTA:SA chamado "Gang War", em português-BR, com foco em comunidade, suporte e operação de staff.
+Você é o Rio Bot e deve CRIAR a estrutura de um Discord para servidor MTA:SA chamado "Gang War" (escala 2k+ membros). Execute em ordem, sem pular etapas, e no final mostre checklist do que foi criado.
 
-Requisitos:
-0) O servidor é grande (2k+ membros), então organize a estrutura com foco em escala, moderação e redução de ruído.
-1) Crie categorias e canais com estes blocos:
-   - BOAS-VINDAS E ENTRADA: #bem-vindo, #regras, #como-comecar, #cargos
-   - COMUNICAÇÃO OFICIAL: #anuncios, #changelog, #status-servidor
-   - COMUNIDADE E JOGO: #chat-geral, #chat-gangues, #mídias, #comandos-e-dicas, #sugestões
-   - SUPORTE: #dúvidas, #report-bugs, #denúncias, #suporte-financeiro
-   - STAFF (privado): #staff-chat, #mod-alertas, #triagem-suporte, #planejamento
-   - VOZ: Geral 1, Geral 2, Guerra de Gangues, Suporte por Voz, Staff Voice
-   - GANGUES OFICIAIS (privado): 10 gangues, cada uma com 2 canais de texto e 1 de voz exclusivos.
+REGRAS DE EXECUÇÃO:
+1) Não apagar canais existentes sem confirmação.
+2) Se canal/cargo já existir, reutilizar.
+3) Criar tudo em português-BR.
+4) Bloquear @everyone em canais privados.
+5) Aplicar isolamento entre gangues (uma não enxerga a outra).
 
-2) Defina permissões por cargo:
-   - Novato, Membro, VIP, Helper, Moderador, Admin, Diretor, Dono, Dev
-   - substituir o cargo genérico "Líder de Gang" por cargos segmentados por gang para isolamento de permissões.
-   - Líder Gang XX, Oficial Gang XX, Membro Gang XX (para XX = 01..10)
-   - cada gang só acessa seus próprios canais; staff acessa todos para auditoria.
+ETAPA 1 — CRIAR CARGOS (nesta ordem):
+- 👑 Dono
+- 🛠️ Diretor
+- ⚙️ Admin
+- 🛡️ Coordenador de Moderação
+- 🔨 Moderador
+- 🧹 Helper
+- 💻 Desenvolvedor
+- 🧪 QA/Tester
+- 💰 Financeiro
+- 📣 Social Media
+- 🎉 Host de Eventos
+- 🎨 Designer
+- 🌟 VIP
+- ✅ Membro
+- 🆕 Novato
+- 🤖 Bot
 
-3) Escreva:
-   - mensagem de boas-vindas,
-   - regras base,
-   - modelo de report de bug,
-   - modelo de denúncia,
-   - padrão de changelog.
+ETAPA 2 — CRIAR CARGOS DE GANG (10 blocos):
+Para XX de 01 até 10, criar:
+- Líder Gang XX
+- Oficial Gang XX
+- Membro Gang XX
 
-4) Inclua recomendações de bots:
-   - moderação,
-   - tickets,
-   - logging,
-   - status do servidor.
+ETAPA 3 — CRIAR CATEGORIAS E CANAIS DE TEXTO:
+1. 📌 BOAS-VINDAS E ENTRADA
+   - #bem-vindo
+   - #regras
+   - #como-comecar
+   - #cargos
+   - #verificacao
 
-5) Formate a resposta em checklist acionável, pronta para execução pela staff.
+2. 📢 COMUNICAÇÃO OFICIAL
+   - #anúncios
+   - #changelog
+   - #status-servidor
+   - #calendario-eventos
+   - #faq-oficial
+
+3. 🎮 COMUNIDADE E GAMEPLAY
+   - #chat-geral
+   - #chat-gangues
+   - #mídias
+   - #comandos-e-dicas
+   - #sugestões
+   - #enquetes
+   - #clipes-da-semana
+
+4. 🆘 SUPORTE
+   - #dúvidas
+   - #report-bugs
+   - #denúncias
+   - #suporte-financeiro
+   - #status-dos-tickets
+
+5. 🛡️ STAFF (PRIVADO)
+   - #staff-chat
+   - #mod-alertas
+   - #triagem-suporte
+   - #planejamento
+   - #roadmap-interno
+   - #logs-bot
+   - #relatorio-diario
+   - #mapa-cargos-gang
+
+ETAPA 4 — CRIAR CATEGORIA DE GANGUES (PRIVADA):
+Categoria: 🏴 GANGUES OFICIAIS
+Para cada gang XX (01..10), criar:
+- #gang-XX-chat
+- #gang-XX-avisos
+- 🔊 gang-XX-voz
+
+PERMISSÕES POR GANG XX:
+- #gang-XX-chat: ver/escrever = Líder Gang XX, Oficial Gang XX, Membro Gang XX; staff pode ver.
+- #gang-XX-avisos: escrever = Líder/Oficial Gang XX; Membro Gang XX só lê; staff pode gerenciar.
+- 🔊 gang-XX-voz: conectar/falar = cargos da própria gang XX; staff com acesso.
+- Bloquear totalmente Gang YY (YY ≠ XX).
+
+ETAPA 5 — CRIAR CANAIS DE VOZ GERAIS:
+- 🔊 Geral 1
+- 🔊 Geral 2
+- 🔊 Squad 1 (limite 5)
+- 🔊 Squad 2 (limite 5)
+- 🔊 Guerra 10v10 (limite 10)
+- 🔊 Guerra 20v20 (limite 20)
+- 🎤 Palco - Avisos
+- 🎉 Evento Aberto
+- 🆘 Suporte por Voz 1
+- 🆘 Suporte por Voz 2
+- 🔒 Staff Voice
+- 🔒 Reunião Staff
+- 🔒 Dev/QA
+
+ETAPA 6 — PERMISSÕES GERAIS:
+- Novato: ler #bem-vindo/#regras/#verificacao, sem falar em #chat-geral.
+- Membro: acesso aos canais públicos.
+- VIP: mesmos canais de membro + destaque visual.
+- Helper: responder dúvidas, sem ban.
+- Moderador: timeout/mute/kick + triagem.
+- Admin/Diretor/Dono: gestão completa.
+- Bot: apenas permissões técnicas necessárias.
+
+ETAPA 7 — MENSAGENS INICIAIS (criar e fixar):
+- Mensagem de boas-vindas em #bem-vindo.
+- Regras em #regras.
+- Template de bug em #report-bugs.
+- Template de denúncia em #denúncias.
+- Padrão de changelog em #changelog.
+
+SAÍDA FINAL OBRIGATÓRIA:
+1) Checklist com ✅/❌ por etapa.
+2) Lista de cargos criados.
+3) Lista de categorias/canais criados.
+4) Lista de permissões críticas aplicadas.
+5) Pendências que exigem ação manual.
 ```
