@@ -185,7 +185,7 @@ Disponíveis **somente para membros da gang dona** — incluem rifles de alto n�
 ### Banco
 - Operações: Depósito, Saque, Transferência entre jogadores
 - Saldo bancário salvo no banco de dados, não se perde
-- Acesso físico (marcadores no mapa) ou via telefone in-game
+- Acesso físico (marcadores no mapa) ou via telefone in-game *(em desenvolvimento, ainda não funcional)*
 
 ### Propriedades (Renda Passiva)
 - **53 propriedades** disponíveis para compra individual

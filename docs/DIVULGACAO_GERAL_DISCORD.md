@@ -60,7 +60,7 @@ Deposite, saque e transfira dinheiro entre jogadores. Seu saldo bancário persis
 
 O servidor conta com uma **interface DX personalizada** inspirada em smartphones modernos:
 
-- 📲 **Telefone in-game** com apps de informações, configurações e banco
+- 📲 **Telefone in-game** *(em desenvolvimento, ainda não funcional)*
 - 🏦 **Painel do Banco** com botões de depósito, saque e transferência
 - 🔐 **Tela de Login e Registro** com blur de fundo e animações
 - 👗 **Seletor de Skin** com dezenas de opções por categoria

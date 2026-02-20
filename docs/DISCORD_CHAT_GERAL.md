@@ -17,7 +17,7 @@
 ⚔️ **Combate em 2 Fases** — Dominação + Batalha de Pontos
 🏠 **53 Propriedades** com renda passiva a cada 10 minutos
 💰 **Banco completo** — depósito, saque e transferência
-📲 **Interface moderna** — telefone in-game e HUD personalizado
+📲 **Interface moderna** — HUD personalizado + telefone in-game *(em desenvolvimento, ainda não funcional)*
 
 > 💡 **Mais membros na área = domínio mais rápido.** Equipes organizadas dominam.
 
