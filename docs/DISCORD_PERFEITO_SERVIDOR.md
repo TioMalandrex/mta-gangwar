@@ -237,6 +237,60 @@ Criar um Discord organizado para:
 
 ---
 
+## Estrutura recomendada para servidor grande (2k+ membros)
+
+### Ajustes de escala obrigatórios
+
+1. Separar canais por função para reduzir ruído.
+2. Usar bots de automod com anti-spam, anti-raid e anti-link malicioso.
+3. Restringir `@everyone` a administração.
+4. Criar canais de guerra e suporte com limite de usuários.
+5. Padronizar abertura de tickets com formulário.
+
+### Canais exclusivos para gangues (~10 gangues)
+
+#### Categoria: 🏴 GANGUES OFICIAIS (privada)
+
+Criar 10 blocos de canais, um por gang, por exemplo:
+
+- `#gang-01-chat`
+- `#gang-01-avisos`
+- `🔊 gang-01-voz`
+
+- `#gang-02-chat`
+- `#gang-02-avisos`
+- `🔊 gang-02-voz`
+
+...
+
+- `#gang-10-chat`
+- `#gang-10-avisos`
+- `🔊 gang-10-voz`
+
+#### Permissões por gang (modelo)
+
+Para cada gang, criar cargos dedicados:
+- `Líder Gang 01`
+- `Oficial Gang 01`
+- `Membro Gang 01`
+
+Permissões sugeridas:
+- `#gang-01-chat`: leitura/escrita apenas cargos da Gang 01 + staff.
+- `#gang-01-avisos`: escrita apenas `Líder Gang 01`/`Oficial Gang 01` + staff.
+- `🔊 gang-01-voz`: conexão/fala apenas cargos da Gang 01 + staff.
+- Bloquear acesso cruzado (Gang 01 não vê canais da Gang 02).
+
+#### Recomendação operacional
+
+- Quando uma gang for desativada, arquivar os canais ao invés de apagar.
+- Manter um canal staff de mapeamento: `#mapa-cargos-gang` com:
+  - nome da gang,
+  - líder atual,
+  - cargos vinculados,
+  - status (ativo/inativo).
+
+---
+
 ## O que deveria ter (essencial)
 
 1. Canais com propósito claro e descrição curta.
@@ -281,6 +335,13 @@ Criar um Discord organizado para:
 - **Diretor/Dono:** permissões totais + gestão de integrações.
 - **Bot:** somente permissões estritamente necessárias por função.
 
+### Permissões extras para cenário 2k+
+
+- **Líder Gang XX:** gerencia avisos e organização da gang no Discord.
+- **Oficial Gang XX:** auxilia coordenação e moderação interna da gang.
+- **Membro Gang XX:** acesso aos canais privados da própria gang.
+- **Staff:** acesso transversal de leitura em canais de gang para auditoria.
+
 ---
 
 ## Prompt final (IA para criar o Discord)
@@ -289,6 +350,7 @@ Criar um Discord organizado para:
 Crie a estrutura completa de um servidor Discord para um servidor MTA:SA chamado "Gang War", em português-BR, com foco em comunidade, suporte e operação de staff.
 
 Requisitos:
+0) O servidor é grande (2k+ membros), então organize a estrutura com foco em escala, moderação e redução de ruído.
 1) Crie categorias e canais com estes blocos:
    - BOAS-VINDAS E ENTRADA: #bem-vindo, #regras, #como-comecar, #cargos
    - COMUNICAÇÃO OFICIAL: #anuncios, #changelog, #status-servidor
@@ -296,9 +358,12 @@ Requisitos:
    - SUPORTE: #dúvidas, #report-bugs, #denúncias, #suporte-financeiro
    - STAFF (privado): #staff-chat, #mod-alertas, #triagem-suporte, #planejamento
    - VOZ: Geral 1, Geral 2, Guerra de Gangues, Suporte por Voz, Staff Voice
+   - GANGUES OFICIAIS (privado): 10 gangues, cada uma com 2 canais de texto e 1 de voz exclusivos.
 
 2) Defina permissões por cargo:
-   - Novato, Membro, Líder de Gang, VIP, Helper, Moderador, Admin, Diretor, Dono, Dev
+   - Novato, Membro, VIP, Helper, Moderador, Admin, Diretor, Dono, Dev
+   - Líder Gang XX, Oficial Gang XX, Membro Gang XX (para XX = 01..10)
+   - cada gang só acessa seus próprios canais; staff acessa todos para auditoria.
 
 3) Escreva:
    - mensagem de boas-vindas,
