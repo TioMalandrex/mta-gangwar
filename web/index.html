@@ -355,11 +355,11 @@
     .include-text { font-size: .88rem; color: var(--text2); line-height: 1.4; }
     .include-text strong { color: var(--white); display: block; font-size: .92rem; }
 
-    /* ── Interface (Phone) ── */
+    /* ── Interface ── */
     #interface { background: var(--dark2); }
     .interface-layout {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-      align-items: center; margin-top: 3rem;
+      display: grid; grid-template-columns: 1fr; gap: 3rem;
+      align-items: center; margin: 3rem auto 0; max-width: 860px;
     }
     .phone-wrap {
       position: relative; display: flex; justify-content: center; align-items: center;
@@ -861,18 +861,7 @@
     <p class="section-desc">Sistema DX construído do zero, com telefone in-game ainda em desenvolvimento (não funcional) e painéis dinâmicos de combate e territórios.</p>
     <div class="divider"></div>
     <div class="interface-layout">
-      <div class="phone-wrap">
-        <div class="phone-glow"></div>
-        <img class="phone-img" src="assets/phone.png" alt="Interface Telefone Gang War" loading="lazy" />
-      </div>
       <div class="ui-features">
-        <div class="ui-feat">
-          <div class="ui-feat-icon">📲</div>
-          <div>
-            <div class="ui-feat-title">Telefone In-Game</div>
-            <div class="ui-feat-desc">O telefone in-game ainda está em desenvolvimento e não está funcional no momento.</div>
-          </div>
-        </div>
         <div class="ui-feat">
           <div class="ui-feat-icon">🏦</div>
           <div>
@@ -899,6 +888,13 @@
           <div>
             <div class="ui-feat-title">Seletor de Skin</div>
             <div class="ui-feat-desc">Dezenas de skins organizadas por categoria. Escolha seu personagem antes de entrar no mundo.</div>
+          </div>
+        </div>
+        <div class="ui-feat">
+          <div class="ui-feat-icon">📲</div>
+          <div>
+            <div class="ui-feat-title">Telefone In-Game</div>
+            <div class="ui-feat-desc">O telefone in-game ainda está em desenvolvimento e não está funcional no momento.</div>
           </div>
         </div>
       </div>
