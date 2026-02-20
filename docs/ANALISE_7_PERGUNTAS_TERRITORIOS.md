@@ -189,6 +189,55 @@ Essa parte visual **não está solta**: já está ligada ao script server-side p
 
 ---
 
+## Perguntas adicionais (atualização solicitada)
+
+### 8) Se o servidor crashar agora, as zonas conquistadas na última hora são perdidas?
+
+### Resposta curta
+**Podem ser perdidas, sim.**
+
+### Por que isso acontece no código atual
+- A troca de owner da área ocorre em memória com `self:setOwner(...)` (`Class/Area.lua`).
+- A persistência para `tbl_gang_areas` é feita no ciclo do recurso, principalmente em `onResourceStop` (`Class/Area.lua`).
+- Não existe gravação explícita imediata no banco logo após cada conquista/fim de ataque.
+
+### Impacto prático
+- Se houver **crash/queda** antes de o recurso executar o `onResourceStop`, as mudanças recentes de owner podem não ter sido persistidas.
+
+### Sobre “implementar dbExec no onTeamFinishDomination”
+- Esse ponto precisa de nuance técnica:
+  - `onTeamFinishDomination` marca fim da **Fase 1** e inicia `startAttack` (Fase 2).
+  - Em zonas já com dono, o owner final só é definido no fim do ataque (`onTeamFinishAttack`/`self:setOwner(winner)`).
+- Portanto, para cobertura correta de persistência, o melhor gatilho é o momento em que o owner realmente muda (fluxo de `setOwner`/fim do ataque), não apenas `onTeamFinishDomination`.
+
+### Conclusão
+Sim, existe risco de perda após crash. A recomendação é persistir imediatamente quando a posse for alterada de fato.
+
+---
+
+### 9) Existe “Proteção de Novato” que impeça uma gang de ser atacada 1 minuto após conquistar zona?
+
+### Resposta curta
+**Não existe, no sistema de zonas.**
+
+### Evidência técnica
+- Em `Class/Area.lua` não há:
+  - timestamp de “última conquista” por área;
+  - cooldown de bloqueio pós-conquista (ex.: 60s);
+  - condição de bloqueio no `onColShapeHit` para impedir novo ataque por tempo.
+- O que existe:
+  - restrições por XP mínimo para atacar `gangzona`/`villa`;
+  - flag `isAttacking` para evitar ataques simultâneos;
+  - timers de dominação/ataque.
+- Há “proteção” em outros contextos, mas não de turf pós-conquista:
+  - proteção de spawn/login (`SpawnSelector_*`);
+  - cooldown de veículos especiais (`Class/specialVehicle.lua`).
+
+### Conclusão
+Atualmente não há proteção de 1 minuto (ou similar) para zona recém-conquistada.
+
+---
+
 ## Resumo executivo final
 
 1. O core de territórios/combate existe e está funcional em boa parte.
@@ -201,3 +250,5 @@ Essa parte visual **não está solta**: já está ligada ao script server-side p
    - +300 por mortes em área
    - HUD atualizado em tempo real.
 5. XP é híbrido: dinâmica de batalha + reconciliação por soma de áreas dominadas no salvamento.
+6. Há risco de perda de conquistas recentes em caso de crash antes da persistência de stop.
+7. Não existe hoje cooldown de proteção pós-conquista (ex.: 1 minuto) para impedir novo ataque.
