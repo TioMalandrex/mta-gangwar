@@ -109,6 +109,134 @@ Criar um Discord organizado para:
 
 ---
 
+## Versão detalhada (cargos + canais de texto e voz)
+
+## Cargos detalhados (hierarquia sugerida)
+
+### Administração
+- **👑 Dono**: controle total do servidor e integrações.
+- **🛠️ Diretor**: gestão estratégica, supervisão de staff.
+- **⚙️ Admin**: gerencia canais, cargos, punições e bots.
+
+### Operação/Moderação
+- **🛡️ Coordenador de Moderação**: padrão de punições, auditoria de staff.
+- **🔨 Moderador**: atendimento de denúncias, moderação de chat/voz.
+- **🧹 Helper**: dúvidas rápidas, encaminhamento para ticket.
+
+### Conteúdo e Comunidade
+- **📣 Social Media**: anúncios, teasers, comunicação externa.
+- **🎉 Host de Eventos**: organização de eventos e campeonatos.
+- **🎨 Designer**: mídia visual, banners, posts oficiais.
+
+### Técnico
+- **💻 Desenvolvedor**: acesso técnico, changelog, roadmap.
+- **🧪 QA/Tester**: validação de bugs e reproduções.
+
+### Economia/Loja
+- **💰 Financeiro**: pagamentos, VIP, suporte comercial.
+
+### Comunidade
+- **🌟 VIP**
+- **🏴 Líder de Gang**
+- **⚔️ Membro de Gang**
+- **✅ Membro**
+- **🆕 Novato**
+- **🤖 Bot** (cargo técnico com permissões estritas)
+
+---
+
+## Canais de texto detalhados (o que ter em cada um)
+
+## 📌 BOAS-VINDAS E ENTRADA
+- `#bem-vindo`  
+  **Conteúdo:** proposta do servidor, links principais, botão de entrada.
+- `#leia-primeiro`  
+  **Conteúdo:** mini guia em 5 passos para começar.
+- `#regras`  
+  **Conteúdo:** regras oficiais e escala de punições.
+- `#verificacao`  
+  **Conteúdo:** captcha/reação para liberar acesso.
+- `#cargos`  
+  **Conteúdo:** auto-roles (notícias, eventos, recrutamento).
+
+## 📢 INFORMAÇÕES OFICIAIS
+- `#anúncios`  
+  **Conteúdo:** comunicados importantes (somente staff).
+- `#changelog`  
+  **Conteúdo:** alterações por versão/data.
+- `#status-servidor`  
+  **Conteúdo:** online/offline, reinícios, incidentes.
+- `#calendario-eventos`  
+  **Conteúdo:** agenda da semana e horários.
+- `#faq-oficial`  
+  **Conteúdo:** dúvidas recorrentes com respostas fixadas.
+
+## 🎮 COMUNIDADE E GAMEPLAY
+- `#chat-geral`  
+  **Conteúdo:** conversa aberta com moderação.
+- `#chat-gangues`  
+  **Conteúdo:** recrutamento, alianças e desafios.
+- `#comandos-e-dicas`  
+  **Conteúdo:** comandos úteis e macetes.
+- `#mídias`  
+  **Conteúdo:** clips, prints e momentos de guerra.
+- `#clipes-da-semana`  
+  **Conteúdo:** destaques selecionados pela staff.
+- `#sugestões`  
+  **Conteúdo:** propostas de melhoria com template padrão.
+- `#enquetes`  
+  **Conteúdo:** votações oficiais da comunidade.
+
+## 🆘 SUPORTE
+- `#dúvidas`  
+  **Conteúdo:** perguntas rápidas e respostas da staff/helper.
+- `#report-bugs`  
+  **Conteúdo:** bug report com modelo obrigatório.
+- `#denúncias`  
+  **Conteúdo:** abertura de ticket privado para denúncia.
+- `#suporte-financeiro`  
+  **Conteúdo:** loja, VIP, pagamento, reembolso.
+- `#status-dos-tickets`  
+  **Conteúdo:** painel automático (bot) de tickets abertos/fechados.
+
+## 🛡️ STAFF (PRIVADO)
+- `#staff-chat`
+- `#triagem-suporte`
+- `#mod-alertas`
+- `#relatorio-diario`
+- `#planejamento`
+- `#roadmap-interno`
+- `#logs-bot`
+
+**Conteúdo esperado:** decisões, execução operacional, evidências e auditoria.
+
+---
+
+## Canais de voz detalhados
+
+## Públicos
+- `🔊 Geral 1` (sem limite)
+- `🔊 Geral 2` (sem limite)
+- `🔊 Squad 1` (limite 5)
+- `🔊 Squad 2` (limite 5)
+- `🔊 Guerra 10v10` (limite 10)
+- `🔊 Guerra 20v20` (limite 20)
+
+## Comunidade/Eventos
+- `🎤 Palco - Avisos` (stage)
+- `🎉 Evento Aberto` (temporário durante eventos)
+
+## Suporte
+- `🆘 Suporte por Voz 1` (ticket assistido)
+- `🆘 Suporte por Voz 2` (ticket assistido)
+
+## Privados
+- `🔒 Staff Voice`
+- `🔒 Reunião Staff`
+- `🔒 Dev/QA`
+
+---
+
 ## O que deveria ter (essencial)
 
 1. Canais com propósito claro e descrição curta.
@@ -141,6 +269,18 @@ Criar um Discord organizado para:
 - **Administradores:** gestão de canais/cargos/bots.
 - **Equipe Dev:** acesso a planejamento/changelog técnico.
 
+## Permissões detalhadas (recomendação prática)
+
+- **Novato:** lê `#bem-vindo`, `#regras`, `#verificacao`, sem envio em canais gerais.
+- **Membro:** acesso completo aos canais públicos e voz geral.
+- **Líder de Gang:** menções controladas em `#chat-gangues`, acesso a canais de guerra por voz.
+- **VIP:** benefícios cosméticos/voz prioritária (sem poderes de moderação).
+- **Helper:** responder dúvidas, sem ban/kick.
+- **Moderador:** timeout/mute/kick, gestão de denúncias e tickets.
+- **Admin:** ban, gestão de canais, gestão de cargos operacionais.
+- **Diretor/Dono:** permissões totais + gestão de integrações.
+- **Bot:** somente permissões estritamente necessárias por função.
+
 ---
 
 ## Prompt final (IA para criar o Discord)
@@ -152,13 +292,13 @@ Requisitos:
 1) Crie categorias e canais com estes blocos:
    - BOAS-VINDAS E ENTRADA: #bem-vindo, #regras, #como-comecar, #cargos
    - COMUNICAÇÃO OFICIAL: #anuncios, #changelog, #status-servidor
-   - COMUNIDADE E JOGO: #chat-geral, #chat-gangues, #midias, #comandos-e-dicas, #sugestoes
-   - SUPORTE: #duvidas, #report-bugs, #denuncias, #suporte-financeiro
+   - COMUNIDADE E JOGO: #chat-geral, #chat-gangues, #mídias, #comandos-e-dicas, #sugestões
+   - SUPORTE: #dúvidas, #report-bugs, #denúncias, #suporte-financeiro
    - STAFF (privado): #staff-chat, #mod-alertas, #triagem-suporte, #planejamento
    - VOZ: Geral 1, Geral 2, Guerra de Gangues, Suporte por Voz, Staff Voice
 
 2) Defina permissões por cargo:
-   - Novato, Membro, Moderador, Admin, Dev
+   - Novato, Membro, Líder de Gang, VIP, Helper, Moderador, Admin, Diretor, Dono, Dev
 
 3) Escreva:
    - mensagem de boas-vindas,
