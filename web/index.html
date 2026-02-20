@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gang War — Entre na Guerra. Domine o Mapa.</title>
+  <meta name="description" content="Gang War é um servidor MTA:SA de guerra de gangues feito do zero para a comunidade brasileira. 93 zonas, 5 bases militares, hierarquia, propriedades e muito mais." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:    #c8102e;
+      --red2:   #ff1a3c;
+      --gold:   #f5c400;
+      --dark:   #080b0f;
+      --dark2:  #0e1318;
+      --dark3:  #141c24;
+      --grey:   #1e2830;
+      --text:   #d4d8e0;
+      --text2:  #8a94a0;
+      --white:  #ffffff;
+      --accent: #ff4455;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: rgba(8, 11, 15, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(200,16,46,.25);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .75rem; }
+    .nav-logo img { height: 38px; filter: drop-shadow(0 0 6px rgba(200,16,46,.6)); }
+    .nav-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .1em; color: var(--white); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: .95rem;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--text2);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: .9rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .5rem 1.25rem; border-radius: 4px;
+      background: var(--red); color: var(--white);
+      transition: background .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { background: var(--red2); box-shadow: 0 0 16px rgba(200,16,46,.5); }
+
+    /* ── Hero ── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(180deg, rgba(8,11,15,.6) 0%, rgba(8,11,15,.82) 60%, rgba(8,11,15,1) 100%),
+        url('assets/bg-hero.jpg') center/cover no-repeat;
+    }
+    /* Animated grid overlay */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(200,16,46,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,16,46,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      0%   { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+    .hero-badge {
+      display: inline-block; margin-bottom: 1.5rem;
+      font-family: 'Rajdhani', sans-serif; font-size: .85rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: .35rem 1rem; border: 1px solid var(--red);
+      border-radius: 2px; color: var(--red);
+      background: rgba(200,16,46,.1);
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      line-height: .95;
+      letter-spacing: .03em;
+      color: var(--white);
+      text-shadow: 0 0 40px rgba(200,16,46,.5), 0 0 80px rgba(200,16,46,.25);
+    }
+    .hero-title span { color: var(--red); }
+    .hero-sub {
+      margin-top: 1.25rem;
+      font-family: 'Rajdhani', sans-serif; font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 600; letter-spacing: .08em;
+      color: var(--text); text-transform: uppercase;
+    }
+    .hero-desc {
+      margin-top: 1rem;
+      font-size: 1.05rem; color: var(--text2); max-width: 580px; margin-inline: auto;
+      line-height: 1.65;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+    .btn-primary {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.05rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .85rem 2.2rem; border-radius: 4px;
+      background: var(--red); color: var(--white);
+      box-shadow: 0 4px 20px rgba(200,16,46,.4);
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: var(--red2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,16,46,.6); }
+    .btn-secondary {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.05rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .85rem 2.2rem; border-radius: 4px;
+      border: 1px solid rgba(255,255,255,.25); color: var(--white);
+      background: rgba(255,255,255,.06);
+      transition: all .25s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.5); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      font-family: 'Rajdhani', sans-serif; font-size: .75rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--text2);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll::after { content: '▼'; font-size: 1rem; }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    /* ── Stats Bar ── */
+    #stats {
+      background: var(--red);
+      padding: 1rem 2rem;
+    }
+    .stats-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-around; gap: .75rem;
+    }
+    .stat-item {
+      display: flex; align-items: center; gap: .6rem;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .75rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.8); line-height: 1.2;
+    }
+    .stat-divider { width: 1px; height: 2.5rem; background: rgba(255,255,255,.3); }
+
+    /* ── Section generic ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      font-family: 'Rajdhani', sans-serif; font-size: .8rem; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--red);
+      margin-bottom: .5rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: .04em; color: var(--white); line-height: 1.1;
+    }
+    .section-desc {
+      margin-top: .75rem; color: var(--text2); font-size: 1rem;
+      max-width: 600px; line-height: 1.65;
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: var(--red);
+      margin: 1rem 0 2.5rem;
+    }
+
+    /* ── Features Grid ── */
+    #features { background: var(--dark2); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 6px;
+      padding: 2rem 1.75rem;
+      transition: border-color .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--red);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .feature-card:hover { border-color: rgba(200,16,46,.3); transform: translateY(-4px); }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-icon {
+      font-size: 2.5rem; margin-bottom: 1rem; display: block;
+    }
+    .feature-title {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700;
+      letter-spacing: .05em; color: var(--white); margin-bottom: .6rem;
+    }
+    .feature-text { font-size: .9rem; color: var(--text2); line-height: 1.6; }
+    .feature-tag {
+      display: inline-block; margin-top: .85rem;
+      font-family: 'Rajdhani', sans-serif; font-size: .75rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .25rem .7rem; border-radius: 2px;
+      background: rgba(200,16,46,.15); color: var(--red);
+    }
+
+    /* ── Territories ── */
+    #territories { background: var(--dark); }
+    .terr-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center; margin-top: 3rem;
+    }
+    .terr-types { display: flex; flex-direction: column; gap: 1.25rem; }
+    .terr-type {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.25rem; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 6px;
+      transition: border-color .25s;
+    }
+    .terr-type:hover { border-color: rgba(200,16,46,.3); }
+    .terr-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1;
+      min-width: 2.5rem; color: var(--red);
+    }
+    .terr-info { flex: 1; }
+    .terr-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 700;
+      color: var(--white); letter-spacing: .05em;
+    }
+    .terr-desc { font-size: .88rem; color: var(--text2); line-height: 1.55; margin-top: .25rem; }
+    .terr-xp {
+      font-family: 'Rajdhani', sans-serif; font-size: .8rem; font-weight: 700;
+      color: var(--gold); margin-top: .4rem; letter-spacing: .05em;
+    }
+    .terr-map-wrap {
+      position: relative; border-radius: 8px; overflow: hidden;
+      border: 1px solid rgba(200,16,46,.25);
+      box-shadow: 0 0 40px rgba(200,16,46,.15);
+    }
+    .terr-map-wrap img { width: 100%; display: block; filter: saturate(1.3) brightness(.9); }
+    .terr-map-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(0deg, rgba(8,11,15,.9) 0%, transparent 100%);
+      font-family: 'Rajdhani', sans-serif; font-size: .8rem; font-weight: 600;
+      color: var(--text2); letter-spacing: .1em; text-transform: uppercase;
+    }
+
+    /* ── Combat ── */
+    #combat { background: var(--dark2); }
+    .combat-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      margin-top: 3rem;
+    }
+    .phase-card {
+      background: var(--dark3); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 6px; padding: 2rem; position: relative; overflow: hidden;
+    }
+    .phase-num {
+      position: absolute; top: 1rem; right: 1.25rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
+      color: rgba(255,255,255,.04); line-height: 1; pointer-events: none;
+    }
+    .phase-badge {
+      font-family: 'Rajdhani', sans-serif; font-size: .78rem; font-weight: 700;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: .3rem .8rem; border-radius: 2px; margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .phase-badge.dom { background: rgba(245,196,0,.15); color: var(--gold); }
+    .phase-badge.atk { background: rgba(200,16,46,.15); color: var(--red); }
+    .phase-title {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700;
+      color: var(--white); margin-bottom: 1rem;
+    }
+    .phase-list { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .phase-list li {
+      font-size: .9rem; color: var(--text2); padding-left: 1.25rem; position: relative;
+      line-height: 1.5;
+    }
+    .phase-list li::before { content: '▶'; position: absolute; left: 0; color: var(--red); font-size: .6rem; top: .3rem; }
+    .phase-list li strong { color: var(--white); }
+    .sep { margin: 0 .5rem; color: var(--text2); }
+      margin-top: 2rem; padding: 1.25rem 1.5rem;
+      background: rgba(200,16,46,.08); border-left: 3px solid var(--red);
+      border-radius: 0 4px 4px 0;
+      font-size: .9rem; color: var(--text);
+    }
+    .combat-tip strong { color: var(--red); }
+
+    /* ── Bases ── */
+    #bases { background: var(--dark); }
+    .bases-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem; margin-top: 3rem;
+    }
+    .base-card {
+      background: var(--dark3); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 6px; padding: 1.5rem 1.25rem; text-align: center;
+      transition: all .25s; position: relative; overflow: hidden;
+    }
+    .base-card:hover { border-color: rgba(200,16,46,.4); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(200,16,46,.2); }
+    .base-emoji { font-size: 2.5rem; margin-bottom: .75rem; display: block; }
+    .base-name {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--white); margin-bottom: .4rem;
+    }
+    .base-vehicle {
+      font-size: .85rem; color: var(--text2); margin-bottom: .75rem; line-height: 1.4;
+    }
+    .base-price {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--gold);
+      letter-spacing: .05em;
+    }
+    .base-includes {
+      margin-top: 2.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .include-item {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .9rem 1rem; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 4px;
+    }
+    .include-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .include-text { font-size: .88rem; color: var(--text2); line-height: 1.4; }
+    .include-text strong { color: var(--white); display: block; font-size: .92rem; }
+
+    /* ── Interface (Phone) ── */
+    #interface { background: var(--dark2); }
+    .interface-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center; margin-top: 3rem;
+    }
+    .phone-wrap {
+      position: relative; display: flex; justify-content: center; align-items: center;
+    }
+    .phone-glow {
+      position: absolute; width: 80%; height: 80%;
+      background: radial-gradient(ellipse, rgba(200,16,46,.2) 0%, transparent 70%);
+      filter: blur(40px); pointer-events: none;
+    }
+    .phone-img {
+      position: relative; z-index: 1; max-width: 260px;
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,.8));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    .ui-features { display: flex; flex-direction: column; gap: 1rem; }
+    .ui-feat {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1rem 1.25rem; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 5px;
+      transition: border-color .25s;
+    }
+    .ui-feat:hover { border-color: rgba(200,16,46,.3); }
+    .ui-feat-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .ui-feat-title {
+      font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700;
+      color: var(--white);
+    }
+    .ui-feat-desc { font-size: .84rem; color: var(--text2); line-height: 1.45; }
+
+    /* ── Progression ── */
+    #progression { background: var(--dark); }
+    .prog-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      margin-top: 3rem; align-items: start;
+    }
+    .hierarchy {
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .hier-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem; background: var(--dark3);
+      border: 1px solid rgba(255,255,255,.06); border-radius: 4px;
+      transition: border-color .2s;
+    }
+    .hier-item:hover { border-color: rgba(200,16,46,.3); }
+    .hier-level {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+      min-width: 2.5rem; text-align: center;
+    }
+    .lv4 { color: var(--gold); }
+    .lv3 { color: #e05050; }
+    .lv2 { color: #60b0ff; }
+    .lv1 { color: var(--text2); }
+    .hier-name {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.05rem;
+      color: var(--white);
+    }
+    .hier-perms { font-size: .82rem; color: var(--text2); margin-top: .2rem; }
+    .xp-panel {
+      background: var(--dark3); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 6px; padding: 2rem;
+    }
+    .xp-title {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--white); margin-bottom: 1.25rem;
+    }
+    .xp-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: .9rem;
+    }
+    .xp-row:last-child { border-bottom: none; }
+    .xp-row-label { color: var(--text2); }
+    .xp-row-val {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+      color: var(--gold); letter-spacing: .05em;
+    }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--dark2); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(200,16,46,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      color: var(--white);
+      text-shadow: 0 0 40px rgba(200,16,46,.4);
+      margin-bottom: 1rem;
+    }
+    .cta-text { font-size: 1.05rem; color: var(--text2); margin-bottom: 2.5rem; line-height: 1.65; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-discord {
+      font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.05rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .9rem 2.2rem; border-radius: 4px;
+      background: #5865f2; color: var(--white);
+      box-shadow: 0 4px 20px rgba(88,101,242,.4);
+      transition: all .25s;
+    }
+    .btn-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(88,101,242,.5); }
+    .coming-soon-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      margin-top: 2.5rem;
+      font-family: 'Rajdhani', sans-serif; font-size: .85rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text2);
+    }
+    .coming-soon-badge::before {
+      content: '';
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--red); box-shadow: 0 0 8px var(--red);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .6; transform: scale(1.3); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark); border-top: 1px solid rgba(255,255,255,.06);
+      padding: 2.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;
+    }
+    .footer-brand {
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .footer-brand img { height: 32px; opacity: .8; }
+    .footer-brand span {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-family: 'Rajdhani', sans-serif; font-size: .85rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--text2);
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy {
+      font-size: .8rem; color: rgba(255,255,255,.25);
+      font-family: 'Rajdhani', sans-serif; letter-spacing: .05em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .terr-layout, .combat-layout, .interface-layout, .prog-grid { grid-template-columns: 1fr; }
+      .terr-map-wrap { order: -1; }
+      .phone-img { max-width: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="nav-logo">
+    <img src="assets/logo-main.png" alt="Gang War Logo" />
+    <span>Gang War</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#territories">Territórios</a>
+    <a href="#bases">Bases</a>
+    <a href="#interface">Interface</a>
+    <a href="#cta">Discord</a>
+  </div>
+  <a class="nav-cta" href="https://discord.me/maingamesofficial" target="_blank" rel="noopener noreferrer">Entrar no Discord</a>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <span class="hero-badge">🚧 Em Desenvolvimento · MTA:SA · Comunidade Brasileira 🇧🇷</span>
+    <h1 class="hero-title">GANG<br><span>WAR</span></h1>
+    <p class="hero-sub">Entre na Guerra. Domine o Mapa.</p>
+    <p class="hero-desc">
+      Um servidor <strong>MTA:SA</strong> de guerra de gangues feito do zero para a comunidade brasileira.
+      Forme sua gang, capture territórios e construa um império do crime em San Andreas.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://discord.me/maingamesofficial" target="_blank" rel="noopener noreferrer">💬 Entrar no Discord</a>
+      <a class="btn-secondary" href="#features">Ver Features ↓</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ── Stats Bar ── -->
+<div id="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">93</div>
+        <div class="stat-label">Zonas de<br>Guerra</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Bases<br>Militares</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">53</div>
+        <div class="stat-label">Propriedades<br>c/ Renda</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Níveis de<br>Hierarquia</div>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Fases de<br>Combate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="section-inner">
+    <p class="section-tag">O que te espera</p>
+    <h2 class="section-title">Tudo que um servidor de gangues precisa ter</h2>
+    <div class="divider"></div>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <span class="feature-icon">🏴</span>
+        <div class="feature-title">Sistema de Gangues</div>
+        <p class="feature-text">
+          Crie ou entre em uma gangue. Defina tag, cor RGB e slogan. Hierarquia de 4 níveis com permissões distintas — de Convidado até Líder. Convites com expiração e controle total da equipe.
+        </p>
+        <span class="feature-tag">$400.000 para criar</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🗺️</span>
+        <div class="feature-title">93 Zonas de Guerra</div>
+        <p class="feature-text">
+          60 Territórios pelo mapa inteiro, 8 Gang Zonas com frotas e arsenal exclusivo, e 4 Villas com bônus especiais de respawn. Toda a San Andreas é campo de batalha.
+        </p>
+        <span class="feature-tag">San Andreas completa</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">⚔️</span>
+        <div class="feature-title">Combate em 2 Fases</div>
+        <p class="feature-text">
+          Fase de dominação acelerada por membros na área, seguida de batalha de pontos em tempo real. Cada kill, cada segundo na zona — tudo conta. Equipes organizadas vencem.
+        </p>
+        <span class="feature-tag">Estratégia real</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🏢</span>
+        <div class="feature-title">5 Bases Militares</div>
+        <p class="feature-text">
+          Hunter, Hydra, Rhino, Seasparrow — só para a gang dona da base. Portão animado, frota de 15–22 veículos, pickups de armas e armadura. Respawn centralizado para sua equipe.
+        </p>
+        <span class="feature-tag">Veículos militares exclusivos</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🏠</span>
+        <div class="feature-title">53 Propriedades</div>
+        <p class="feature-text">
+          Lojas, hotéis, cassinos, clubes — compre e receba renda automática a cada 10 minutos. 10% do valor por ciclo. Fonte constante de renda para financiar sua gangue e domínio.
+        </p>
+        <span class="feature-tag">Renda passiva</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">💰</span>
+        <div class="feature-title">Economia Completa</div>
+        <p class="feature-text">
+          Banco com depósito, saque e transferência entre jogadores. Saldo persiste entre sessões e mortes. Novo jogador começa com $100.000 no banco. Sua riqueza nunca some.
+        </p>
+        <span class="feature-tag">Banco persistente</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">📲</span>
+        <div class="feature-title">Interface Moderna</div>
+        <p class="feature-text">
+          Interface DX personalizada inspirada em smartphones. Telefone in-game com apps de banco, informações e configurações. HUD de território e painel de batalha em tempo real.
+        </p>
+        <span class="feature-tag">DX personalizado</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🔫</span>
+        <div class="feature-title">Arsenal Balanceado</div>
+        <p class="feature-text">
+          Pacote aleatório ao nascer: pistola, escopeta, metralhadora e fuzil. Danos rebalanceados para combate justo. Pickups de armas pesadas disponíveis nas gang zonas e bases dominadas.
+        </p>
+        <span class="feature-tag">Danos customizados</span>
+      </div>
+
+      <div class="feature-card">
+        <span class="feature-icon">🏆</span>
+        <div class="feature-title">Ranking e XP</div>
+        <p class="feature-text">
+          XP dinâmico: reflete os territórios dominados em tempo real. Ranking top 10 gangues por XP, com cor e slogan. Defesa vale +1.000 XP fixo. Suba no ranking dominando o mapa.
+        </p>
+        <span class="feature-tag">/top para ranking</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Territories ── -->
+<section id="territories">
+  <div class="section-inner">
+    <p class="section-tag">Campo de Batalha</p>
+    <h2 class="section-title">93 Zonas de Guerra pelo Mapa</h2>
+    <p class="section-desc">O XP da sua gang é a soma de todos os territórios dominados no momento. Dominar mais = mais XP = mais poder.</p>
+    <div class="divider"></div>
+    <div class="terr-layout">
+      <div class="terr-types">
+        <div class="terr-type">
+          <div class="terr-num">60</div>
+          <div class="terr-info">
+            <div class="terr-name">🏙️ Territórios</div>
+            <p class="terr-desc">Espalhados por Los Santos, San Fierro e Las Venturas. Sem requisito de XP para atacar — qualquer gang pode disputar a qualquer momento.</p>
+            <div class="terr-xp">+1.000 XP por zona dominada</div>
+          </div>
+        </div>
+        <div class="terr-type">
+          <div class="terr-num">8</div>
+          <div class="terr-info">
+            <div class="terr-name">⚡ Gang Zonas</div>
+            <p class="terr-desc">Localizações estratégicas em Las Venturas com frotas de veículos e pickups de armas exclusivos para a gang dominante. Requer 6.000 XP para atacar.</p>
+            <div class="terr-xp">+5.000 XP · Veículos + Arsenal</div>
+          </div>
+        </div>
+        <div class="terr-type">
+          <div class="terr-num">4</div>
+          <div class="terr-info">
+            <div class="terr-name">👑 Villas</div>
+            <p class="terr-desc">Os pontos mais cobiçados. Fort Carson dá +100 armadura ao nascer. Blueberry dá +$25.000 ao nascer. Requer 11.000 XP para atacar.</p>
+            <div class="terr-xp">+10.000 XP · Bônus de respawn únicos</div>
+          </div>
+        </div>
+      </div>
+      <div class="terr-map-wrap">
+        <img src="assets/map-base.png" alt="Mapa das Bases Gang War" loading="lazy" />
+        <div class="terr-map-overlay">🗺️ Mapa das Bases — San Andreas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Combat ── -->
+<section id="combat">
+  <div class="section-inner">
+    <p class="section-tag">Mecânica de combate</p>
+    <h2 class="section-title">Captura em 2 Fases</h2>
+    <p class="section-desc">Toda captura de território começa com dominação e termina com batalha de pontos. Cada membro extra faz diferença.</p>
+    <div class="divider"></div>
+    <div class="combat-layout">
+      <div class="phase-card">
+        <div class="phase-num">1</div>
+        <span class="phase-badge dom">Fase 1</span>
+        <div class="phase-title">🟡 Dominação (Pré-Ataque)</div>
+        <ul class="phase-list">
+          <li>Entre no território inimigo para iniciar</li>
+          <li><strong>Tempo base:</strong> 260 segundos (4min 20s)</li>
+          <li><strong>Acelerador:</strong> −500ms por membro na área/s</li>
+          <li>5 membros → ≈185s <span class="sep">|</span> 10 membros → ≈110s</li>
+          <li>Defensor recebe <strong>alerta imediato</strong></li>
+          <li>Todos saem da área → dominação cancelada</li>
+        </ul>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">2</div>
+        <span class="phase-badge atk">Fase 2</span>
+        <div class="phase-title">🔴 Ataque (Batalha de Pontos)</div>
+        <ul class="phase-list">
+          <li><strong>Duração:</strong> 200 segundos fixos</li>
+          <li>Defensor começa com <strong>+500 pontos</strong> de vantagem</li>
+          <li>Cada jogador na área gera <strong>+pontos/segundo</strong></li>
+          <li>Cada kill na área vale <strong>+300 pontos</strong> para o adversário</li>
+          <li>Defensor vence → <strong>+1.000 XP</strong> · mantém território</li>
+          <li>Atacante vence → <strong>+XP da zona</strong> · defensor perde XP</li>
+        </ul>
+      </div>
+    </div>
+    <div class="combat-tip">
+      <strong>💡 Dica Estratégica:</strong> Mais membros na área = dominação mais rápida + mais pontos por segundo durante o ataque. Equipes grandes têm vantagem direta e comprovada nos dois sistemas.
+    </div>
+  </div>
+</section>
+
+<!-- ── Bases ── -->
+<section id="bases">
+  <div class="section-inner">
+    <p class="section-tag">Topo da progressão</p>
+    <h2 class="section-title">5 Bases Militares para Conquistar</h2>
+    <p class="section-desc">Cada gang pode possuir apenas uma base. Requer 10.000 XP e Líder ou Comandante. Ao comprar: +10.000 XP bônus para a gang.</p>
+    <div class="divider"></div>
+    <div class="bases-grid">
+      <div class="base-card">
+        <span class="base-emoji">🏜️</span>
+        <div class="base-name">Area 51</div>
+        <div class="base-vehicle">🚁 Hunter<br>Helicóptero de Ataque</div>
+        <div class="base-price">$1.000.000</div>
+      </div>
+      <div class="base-card">
+        <span class="base-emoji">🏭</span>
+        <div class="base-name">Fábrica</div>
+        <div class="base-vehicle">✈️ Hydra<br>Caça VTOL</div>
+        <div class="base-price">$525.000</div>
+      </div>
+      <div class="base-card">
+        <span class="base-emoji">🪖</span>
+        <div class="base-name">Depto. Militar</div>
+        <div class="base-vehicle">🛡️ Rhino<br>Tanque de Guerra</div>
+        <div class="base-price">$500.000</div>
+      </div>
+      <div class="base-card">
+        <span class="base-emoji">🏗️</span>
+        <div class="base-name">Construção</div>
+        <div class="base-vehicle">🚁 Seasparrow<br>Helicóptero Armado</div>
+        <div class="base-price">$475.000</div>
+      </div>
+      <div class="base-card">
+        <span class="base-emoji">🏚️</span>
+        <div class="base-name">Garagem</div>
+        <div class="base-vehicle">🚁 Seasparrow<br>Helicóptero Armado</div>
+        <div class="base-price">$450.000</div>
+      </div>
+    </div>
+    <div class="base-includes">
+      <div class="include-item">
+        <div class="include-icon">🚗</div>
+        <div class="include-text">
+          <strong>Frota Exclusiva</strong>
+          15–22 veículos exclusivos para membros da gang dona
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🔫</div>
+        <div class="include-text">
+          <strong>Arsenal da Base</strong>
+          Pickups de armas, saúde e armadura disponíveis somente para a gang
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🚪</div>
+        <div class="include-text">
+          <strong>Portão Animado</strong>
+          Abre automaticamente para membros, fecha para inimigos
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">📍</div>
+        <div class="include-text">
+          <strong>Respawn Centralizado</strong>
+          Toda a gang renasce direto na base quando ela é dominada
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Interface ── -->
+<section id="interface">
+  <div class="section-inner">
+    <p class="section-tag">Interface in-game</p>
+    <h2 class="section-title">Interface Moderna e Personalizada</h2>
+    <p class="section-desc">Sistema DX construído do zero, com telefone in-game inspirado em smartphones reais e painéis dinâmicos de combate e territórios.</p>
+    <div class="divider"></div>
+    <div class="interface-layout">
+      <div class="phone-wrap">
+        <div class="phone-glow"></div>
+        <img class="phone-img" src="assets/phone.png" alt="Interface Telefone Gang War" loading="lazy" />
+      </div>
+      <div class="ui-features">
+        <div class="ui-feat">
+          <div class="ui-feat-icon">📲</div>
+          <div>
+            <div class="ui-feat-title">Telefone In-Game</div>
+            <div class="ui-feat-desc">Apps de informações, banco, configurações, mapa de guerra e muito mais — tudo acessível direto no telefone.</div>
+          </div>
+        </div>
+        <div class="ui-feat">
+          <div class="ui-feat-icon">🏦</div>
+          <div>
+            <div class="ui-feat-title">Painel do Banco</div>
+            <div class="ui-feat-desc">Deposite, saque e transfira dinheiro com interface visual moderna. Saldo salvo no banco de dados — nunca se perde.</div>
+          </div>
+        </div>
+        <div class="ui-feat">
+          <div class="ui-feat-icon">🔐</div>
+          <div>
+            <div class="ui-feat-title">Tela de Login</div>
+            <div class="ui-feat-desc">Login e registro com efeito blur de fundo, animações e validação em tempo real.</div>
+          </div>
+        </div>
+        <div class="ui-feat">
+          <div class="ui-feat-icon">⚔️</div>
+          <div>
+            <div class="ui-feat-title">Painel de Batalha</div>
+            <div class="ui-feat-desc">Pontuação ao vivo, mortes, jogadores na área e contador de tempo durante ataques de território em tempo real.</div>
+          </div>
+        </div>
+        <div class="ui-feat">
+          <div class="ui-feat-icon">👗</div>
+          <div>
+            <div class="ui-feat-title">Seletor de Skin</div>
+            <div class="ui-feat-desc">Dezenas de skins organizadas por categoria. Escolha seu personagem antes de entrar no mundo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Progression ── -->
+<section id="progression">
+  <div class="section-inner">
+    <p class="section-tag">Hierarquia e XP</p>
+    <h2 class="section-title">Progressão que faz sentido</h2>
+    <p class="section-desc">Hierarquia com permissões reais, XP dinâmico baseado nos territórios controlados e desbloqueios conforme sua gang cresce.</p>
+    <div class="divider"></div>
+    <div class="prog-grid">
+      <div>
+        <div class="xp-title">🏅 Hierarquia da Gang</div>
+        <div class="hierarchy">
+          <div class="hier-item">
+            <div class="hier-level lv4">4</div>
+            <div>
+              <div class="hier-name">👑 Líder</div>
+              <div class="hier-perms">Tag, slogan, cor, liderança, base, deletar gang</div>
+            </div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-level lv3">3</div>
+            <div>
+              <div class="hier-name">⚔️ Comandante</div>
+              <div class="hier-perms">Convidar, expulsar, gerenciar levels, comprar base</div>
+            </div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-level lv2">2</div>
+            <div>
+              <div class="hier-name">🔵 Membro</div>
+              <div class="hier-perms">Combate, territórios, pickups e veículos da gang</div>
+            </div>
+          </div>
+          <div class="hier-item">
+            <div class="hier-level lv1">1</div>
+            <div>
+              <div class="hier-name">🤝 Convidado</div>
+              <div class="hier-perms">Acesso básico e combate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xp-panel">
+        <div class="xp-title">📊 Tabela de XP</div>
+        <div class="xp-row">
+          <span class="xp-row-label">Ganhar ataque</span>
+          <span class="xp-row-val">+XP da Zona</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Defender com sucesso</span>
+          <span class="xp-row-val">+1.000 XP</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Perder território</span>
+          <span class="xp-row-val">−XP da Zona</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Atacar Gang Zona</span>
+          <span class="xp-row-val">6.000 XP mín.</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Atacar Villa</span>
+          <span class="xp-row-val">11.000 XP mín.</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Comprar Base</span>
+          <span class="xp-row-val">10.000 XP mín.</span>
+        </div>
+        <div class="xp-row">
+          <span class="xp-row-label">Comprar Base (+bônus)</span>
+          <span class="xp-row-val">+10.000 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="section-inner cta-inner">
+    <h2 class="cta-title">Pronto para dominar<br>San Andreas?</h2>
+    <p class="cta-text">
+      O servidor está em desenvolvimento ativo. Entre no nosso Discord para acompanhar o progresso,
+      conhecer a equipe e estar entre os primeiros a jogar quando abrirmos.
+    </p>
+    <div class="cta-actions">
+      <a class="btn-discord" href="https://discord.me/maingamesofficial" target="_blank" rel="noopener noreferrer">
+        💬 Entrar no Discord
+      </a>
+      <a class="btn-secondary" href="http://www.maingames.com.br" target="_blank" rel="noopener noreferrer">
+        🌐 Website
+      </a>
+    </div>
+    <div class="coming-soon-badge">Em Desenvolvimento — Lançamento em breve</div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo-main.png" alt="Gang War" />
+      <span>Gang War</span>
+    </div>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#territories">Territórios</a>
+      <a href="#bases">Bases</a>
+      <a href="https://discord.me/maingamesofficial" target="_blank" rel="noopener noreferrer">Discord</a>
+      <a href="http://www.maingames.com.br" target="_blank" rel="noopener noreferrer">Website</a>
+    </div>
+    <div class="footer-copy">
+      Gang War · Servidor MTA:SA · Feito com ❤️ para a comunidade brasileira
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
