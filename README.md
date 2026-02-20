@@ -30,7 +30,7 @@
 ### Características Principais
 
 - **🏆 Sistema de Gangues Completo**: 4 níveis hierárquicos (Convidado, Membro, Comandante, Líder)
-- **🗺️ 93 Territórios**: 60 Territorios, 8 Gangzonas e 4 Villas distribuídos pelo mapa
+- **🗺️ 70 Territórios**: 58 Territorios, 8 Gangzonas e 4 Villas distribuídos pelo mapa
 - **🏢 5 Bases Compráveis**: Bases com veículos, portões e recursos exclusivos
 - **🏠 53 Propriedades**: Sistema de propriedades com renda passiva
 - **💰 Economia Balanceada**: Sistema completo de dinheiro, banco e transações
@@ -43,7 +43,7 @@
 ```
 📊 Linhas de Código:      ~8,000+
 📦 Classes:               11 principais
-🗺️ Territórios:          93 totais (60+8+4)
+🗺️ Territórios:          70 totais (58+8+4)
 🏢 Bases:                5 disponíveis
 🏠 Propriedades:         53 imóveis
 ⚙️ Recursos Extras:      20+ módulos opcionais
@@ -58,7 +58,7 @@
 | | Hierarquia | 4 níveis | Líder, Comandante, Membro, Convidado |
 | | Tag | 4 chars máx | VARCHAR(3) no DB |
 | | XP inicial | 0 | Progressão por territórios |
-| **Territórios** | Total | 93 | 60 Territorios + 8 Gangzonas + 4 Villas |
+| **Territórios** | Total | 70 | 58 Territorios + 8 Gangzonas + 4 Villas |
 | | XP Territorios | 1,000 | Sem requisito |
 | | XP Gangzonas | 5,000 | Requer 6,000 XP |
 | | XP Villas | 10,000 | Requer 11,000 XP |
@@ -95,7 +95,7 @@
 
 ### Territórios e Dominação
 
-- **93 Zonas de Guerra**: 60 Territórios, 8 Gangzonas e 4 Villas (Las Colinas, East Beach, Downtown, San Fierro, Las Venturas, etc.)
+- **70 Zonas de Guerra**: 58 Territórios, 8 Gangzonas e 4 Villas (Las Colinas, East Beach, Downtown, San Fierro, Las Venturas, etc.)
 - **Sistema de Dominação**: Capture territórios neutros ou ataque gangues inimigas
 - **XP por Domínio**: Gangues ganham experiência ao controlar territórios
 - **Visualização no Mapa**: Cores indicam gangue dominante

@@ -21,10 +21,10 @@ O servidor é completamente feito do zero, com sistemas próprios, interface per
 - Suba na hierarquia de **Convidado** até **Líder**
 - Convide amigos, organize estratégias e conquiste território
 
-### 🗺️ 93 Zonas de Guerra no Mapa Inteiro
+### 🗺️ 70 Zonas de Guerra no Mapa Inteiro
 O mapa de San Andreas está dividido em zonas que podem ser **capturadas e defendidas**:
 
-- 🏙️ **60 Territórios** — espalhados por Los Santos, San Fierro e toda a San Andreas
+- 🏙️ **58 Territórios** — espalhados por Los Santos, San Fierro e toda a San Andreas
 - ⚡ **8 Gang Zonas** — locais estratégicos com frotas de veículos e arsenal exclusivo para a gang dominante
 - 👑 **4 Villas** — os pontos mais cobiçados do mapa, com bônus únicos de respawn
 
@@ -99,7 +99,7 @@ Quando o lançamento for anunciado, você poderá conectar pelo **MTA:SA** com o
 ## 📌 Recursos em Destaque
 
 ```
-✅ 93 Zonas de Disputa no Mapa Completo
+✅ 70 Zonas de Disputa no Mapa Completo
 ✅ 5 Bases com Veículos Militares (Hunter, Hydra, Rhino, Seasparrow)
 ✅ Sistema de Gangues com Hierarquia de 4 Níveis
 ✅ Combate em 2 Fases: Dominação + Batalha de Pontos

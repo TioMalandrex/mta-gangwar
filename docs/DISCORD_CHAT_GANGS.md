@@ -34,14 +34,14 @@
 📨 MENSAGEM 2 DE 6  ·  ~870 caracteres
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🗺️ **Sistema de Territórios — 93 Zonas de Guerra** `[2/6]`
+🗺️ **Sistema de Territórios — 70 Zonas de Guerra** `[2/6]`
 -# Toda progressão da gang é medida em XP, obtido dominando territórios
 
 **3 tipos de território:**
 ```
 Tipo         · Qtd · XP/Zona · XP p/Atacar  · Benefício
 ──────────────────────────────────────────────────────────────
-Território   ·  60 ·  1.000  · Sem req.     · —
+Território   ·  58 ·  1.000  · Sem req.     · —
 Gang Zona    ·   8 ·  5.000  · 6.000 XP     · Veículos + Armas
 Villa        ·   4 · 10.000  · 11.000 XP    · Bônus de respawn
 ```
