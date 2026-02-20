@@ -238,6 +238,8 @@ Este documento é uma reanálise completa do estado atual do projeto **mta-gangw
 
 ## 5) Matriz de integração (alto nível)
 
+Legenda: ✅ integrado | ⚠️ parcial | ❌ ausente
+
 | Sistema | Account | Gang | Turf | Base | Banco | HUD |
 |---|---|---|---|---|---|---|
 | Account | ✅ | ✅ | ⚠️ | ⚠️ | ✅ | ✅ |
@@ -246,8 +248,6 @@ Este documento é uma reanálise completa do estado atual do projeto **mta-gangw
 | Base | ⚠️ | ✅ | ⚠️ | ✅ | ❌ | ⚠️ |
 | Banco | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
 | HUD | ✅ | ⚠️ | ✅ | ⚠️ | ✅ | ✅ |
-
-Legenda: ✅ integrado | ⚠️ parcial | ❌ ausente
 
 ---
 
