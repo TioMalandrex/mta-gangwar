@@ -493,7 +493,7 @@ function Area:persistOwnerNow()
 	end
 
 	return Area.database:update({
-		['owner'] = (self.owner and self.owner or "NULL"),
+		['owner'] = self.owner,
 		['type'] = self.type
 	}):where("name", self.name):execute()
 end
@@ -504,6 +504,7 @@ function Area:setOwner(team)
         self.radarArea:setColor(160,160,160,190)
         self.source:setData("owner",nil)
         self.owner = nil
+		self.lastCaptureTick = 0
 
         if(self.type == "gangzona") then
             local vehicleInstance = Vehicle.getFromBaseName(self.name)
