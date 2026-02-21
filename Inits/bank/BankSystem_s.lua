@@ -1,5 +1,35 @@
+local EVENT_COOLDOWN_MS = 500
+local eventCooldowns = {}
+
+local function isEventRateLimited(player, eventName)
+    if not isElement(player) then
+        return true
+    end
+    local now = getTickCount()
+    local playerCooldowns = eventCooldowns[player]
+    if not playerCooldowns then
+        playerCooldowns = {}
+        eventCooldowns[player] = playerCooldowns
+    end
+
+    local lastTick = playerCooldowns[eventName] or 0
+    if now - lastTick < EVENT_COOLDOWN_MS then
+        return true
+    end
+
+    playerCooldowns[eventName] = now
+    return false
+end
+
+addEventHandler("onPlayerQuit", root, function()
+    eventCooldowns[source] = nil
+end)
+
 addEvent("onPlayerWithdraw",true)
 addEventHandler("onPlayerWithdraw",root,function (quantity)
+    if isEventRateLimited(client, "onPlayerWithdraw") then
+        return
+    end
     local quantity = tonumber(quantity)
     if(quantity) then
         local bankBalance = client:getData("bank_balance") or 0
@@ -20,6 +50,9 @@ end)
 
 addEvent("onPlayerDeposit",true)
 addEventHandler("onPlayerDeposit",root,function (quantity)
+    if isEventRateLimited(client, "onPlayerDeposit") then
+        return
+    end
     local quantity = tonumber(quantity)
     if(quantity) then
         local bankBalance = client:getData("bank_balance") or 0
@@ -41,6 +74,9 @@ end)
 
 addEvent("onPlayerTransfer",true)
 addEventHandler("onPlayerTransfer",root,function (toPlayer,quantity)
+    if isEventRateLimited(client, "onPlayerTransfer") then
+        return
+    end
     if not toPlayer then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme um player válido.",client,255,255,255,true)
         return
@@ -139,5 +175,3 @@ addEventHandler("onResourceStart", resourceRoot, function()
 		addEventHandler("onMarkerLeave", marker, bankLeave) 
 	end
 end)
-
-
