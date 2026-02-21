@@ -1,6 +1,7 @@
 # Análise Técnica — Respostas Detalhadas às 7 Perguntas (Zonas, Combate, XP e HUD)
 
 > Base desta análise: leitura direta do código atual do repositório (sem suposições externas).
+> Observação: menções a “93 zonas” neste arquivo aparecem por contexto das perguntas originais; a contagem correta atual documentada aqui é **70 zonas**.
 
 ---
 
