@@ -48,13 +48,13 @@ Análise feita por:
 
 1. `glue`  
    - Em `meta.xml`: incluído  
-   - No repositório: existe apenas `"[extras]/glue.zip"` (não há pasta/resource `glue` com `meta.xml`)  
-   - Risco: erro de include no start, se o servidor não tiver `glue` instalado externamente.
+   - No repositório: existe como `"[extras]/glue.zip"`  
+   - Situação: **OK** ✅ (MTA consegue ler resource empacotado em `.zip`).
 
 2. `heligrab`  
    - Em `meta.xml`: incluído  
-   - No repositório: existe apenas `"[extras]/heligrab.zip"` (não há pasta/resource `heligrab` com `meta.xml`)  
-   - Risco: erro de include no start, se o servidor não tiver `heligrab` instalado externamente.
+   - No repositório: existe como `"[extras]/heligrab.zip"`  
+   - Situação: **OK** ✅ (MTA consegue ler resource empacotado em `.zip`).
 
 3. `pickuphandler`  
    - Em `meta.xml`: incluído  
@@ -71,13 +71,11 @@ Observação: o README descreve `[extras]` como opcionais. Então ausência de i
 
 ### Alteração obrigatória (consistência de deploy)
 
-Escolher **uma** estratégia para os includes abaixo:
-- `glue`
-- `heligrab`
+Escolher **uma** estratégia para o include abaixo:
 - `pickuphandler`
 
-#### Opção A (recomendada): manter includes e garantir resources reais
-- Extrair/instalar os resources faltantes como pastas válidas (com `meta.xml`) no diretório de resources do servidor.
+#### Opção A (recomendada): manter include e garantir resource real
+- Disponibilizar o resource faltante no diretório de resources do servidor (pasta com `meta.xml` ou `.zip` válido).
 - Ideal para manter funcionalidades planejadas.
 
 #### Opção B: remover include até o resource existir
@@ -87,13 +85,12 @@ Escolher **uma** estratégia para os includes abaixo:
 ## Sugestão de ajuste mínimo no `meta.xml` (se optar pela Opção B)
 
 ```xml
-<!-- <include resource="glue" minversion="1.5.2"/> -->
-<!-- <include resource="heligrab" minversion="1.5.2"/> -->
 <!-- <include resource="pickuphandler" minversion="1.5.2"/> -->
 ```
 
 ## Conclusão
 
 - Dependências essenciais encontradas por código (`hud`, `systemID`, `scoreboard`) já estão corretamente incluídas.
-- O principal problema atual é de **consistência de disponibilidade** para `glue`, `heligrab` e `pickuphandler`.
+- Resources `glue.zip` e `heligrab.zip` são válidos para include no MTA e não exigem ajuste por esse motivo.
+- O principal ponto pendente é a **consistência de disponibilidade** de `pickuphandler`.
 - Extras não incluídos parecem opcionais e não exigem alteração automática no `meta.xml` sem decisão funcional do servidor.
