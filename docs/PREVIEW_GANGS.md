@@ -42,7 +42,7 @@ Se a sua equipe tem organização, disciplina e quer dominar o mapa — este ser
 
 ---
 
-## 🗺️ Sistema de Territórios — 93 Zonas de Guerra
+## 🗺️ Sistema de Territórios — 70 Zonas de Guerra
 
 O coração do servidor. Toda a progressão da gangue é medida em **XP**, e o XP é obtido e mantido **dominando territórios**.
 
@@ -50,7 +50,7 @@ O coração do servidor. Toda a progressão da gangue é medida em **XP**, e o X
 
 | Tipo | Quantidade | XP por Zona | XP Mínimo para Atacar | Benefício Extra |
 |------|-----------|-------------|----------------------|-----------------|
-| **Território** | 60 | 1.000 | Nenhum | — |
+| **Território** | 58 | 1.000 | Nenhum | — |
 | **Gang Zona** | 8 | 5.000 | 6.000 XP da gang | Veículos + Pickups de Armas |
 | **Villa** | 4 | 10.000 | 11.000 XP da gang | Bônus de respawn (ver abaixo) |
 
@@ -178,7 +178,7 @@ Disponíveis **somente para membros da gang dona** — incluem rifles de alto n�
 ### Banco
 - Operações: Depósito, Saque, Transferência entre jogadores
 - Saldo bancário salvo no banco de dados, não se perde
-- Acesso físico (marcadores no mapa) ou via telefone
+- Acesso físico (marcadores no mapa) ou via telefone *(em desenvolvimento, ainda não funcional)*
 
 ### Propriedades (Renda Passiva)
 - **53 propriedades** disponíveis para compra individual (não da gang)
