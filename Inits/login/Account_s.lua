@@ -21,6 +21,10 @@ local function isEventRateLimited(player, eventName)
 	return false
 end
 
+addEventHandler("onPlayerQuit", root, function()
+	eventCooldowns[source] = nil
+end)
+
 addEvent("onAccountTryLogin",true)
 addEventHandler("onAccountTryLogin",root,function (username,password)
 	if isEventRateLimited(client, "onAccountTryLogin") then

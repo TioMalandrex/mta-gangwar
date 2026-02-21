@@ -21,6 +21,10 @@ local function isEventRateLimited(player, eventName)
     return false
 end
 
+addEventHandler("onPlayerQuit", root, function()
+    eventCooldowns[source] = nil
+end)
+
 addEvent("onPlayerWithdraw",true)
 addEventHandler("onPlayerWithdraw",root,function (quantity)
     if isEventRateLimited(client, "onPlayerWithdraw") then

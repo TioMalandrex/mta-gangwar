@@ -21,6 +21,10 @@ local function isEventRateLimited(player, eventName)
     return false
 end
 
+addEventHandler("onPlayerQuit", root, function()
+    eventCooldowns[source] = nil
+end)
+
 addEvent("changeSkinServer",true)
 addEventHandler( "changeSkinServer", root,function(idSkin)
     if isEventRateLimited(client, "changeSkinServer") then
