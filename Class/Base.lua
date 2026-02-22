@@ -233,10 +233,15 @@ function Base:setOwner(owner)
 		self.owner = nil
 		self.radar:setColor(160,160,160,190)
 		local vehicleInstance = Vehicle.getFromBaseName(self.name)
+		local specialVehicleInstance = specialVehicle.getFromBaseName(self.name)
 		local pickupInstance = Pickup.getFromBaseName(self.name)
 	if(vehicleInstance) then
 		vehicleInstance:updateColor(160,160,160)
 		vehicleInstance:setOwner(nil)
+	end
+	if(specialVehicleInstance) then
+		specialVehicleInstance:updateColor(160,160,160)
+		specialVehicleInstance:setOwner(nil)
 	end
 	if(pickupInstance) then
 		pickupInstance:setOwner(nil)
@@ -247,10 +252,15 @@ function Base:setOwner(owner)
 	local r,g,b = Gang.getFromName(self.owner):getColor()	
 	self.radar:setColor(Gang.getFromName(self.owner):getColor())
 	local vehicleInstance = Vehicle.getFromBaseName(self.name)
+	local specialVehicleInstance = specialVehicle.getFromBaseName(self.name)
 	local pickupInstance = Pickup.getFromBaseName(self.name)
 	if(vehicleInstance) then
 		vehicleInstance:updateColor(r,g,b)
 		vehicleInstance:setOwner(self.owner)
+	end
+	if(specialVehicleInstance) then
+		specialVehicleInstance:updateColor(r,g,b)
+		specialVehicleInstance:setOwner(self.owner)
 	end
 	if(pickupInstance) then
 		pickupInstance:setOwner(self.owner)

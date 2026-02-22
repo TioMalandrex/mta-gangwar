@@ -22,6 +22,21 @@ function specialVehicle:init(base, model, x, y, z, rotation)
     self.vehicle = createVehicle(model, x, y, z, 0, 0, rotation)
     self.base = base
     self.owner = nil
+    self:updateColor(160,160,160)
+
+    if Base and Base.instances and Base.instances.table then
+        for _, baseInstance in pairs(Base.instances.table) do
+            if baseInstance.name == self.base and baseInstance.owner then
+                local gang = Gang.getFromName(baseInstance.owner)
+                if gang then
+                    local r,g,b = gang:getColor()
+                    self:updateColor(r,g,b)
+                    self:setOwner(baseInstance.owner)
+                end
+                break
+            end
+        end
+    end
 
     -- Corrigido: syncVehicle agora usa função global correta
     syncVehicle(self.vehicle)
