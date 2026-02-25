@@ -52,6 +52,7 @@
 		<script src="Inits/turf/DominationTerritory_c.lua" type="client" />
 		<script src="Inits/login/SpawnSelector_s.lua" type="server"/> 
 			<script src="Inits/login/SpawnSelector_c.lua" type="client"/> 
+		<file src="gfx/login/blur.fx"/>
 		<script src="Inits/gameplay/Pickup_c.lua" type="client"/> 
 		<script src="Inits/turf/shared/data.lua" type="server"/>
 		<script src="Inits/main.lua" type="server"/>
