@@ -104,7 +104,7 @@ function InfoApp:init()
     self.panelAvatar:add(self.imageAvatar)
 
 
-    self.lblPlayerName = Label("iNeewbie")
+    self.lblPlayerName = Label("Nenhum jogador")
     self.lblPlayerName.decorator = true
     self.lblPlayerName:setFont(fontPlayer)
     self.lblPlayerName:setBounds(0,50,self.panelFindedPlayer:getWidth(),35)
@@ -113,7 +113,7 @@ function InfoApp:init()
     self.lblPlayerName:setAlignment(Label.CENTER)
     self.panelFindedPlayer:add(self.lblPlayerName)
 
-    self.lblPlayerDesc = Label("O cara malha pra pegar mulhéé")
+    self.lblPlayerDesc = Label("Pesquise um jogador online")
     self.lblPlayerDesc.decorator = true
     self.lblPlayerDesc:setFont(fontDesc)
     self.lblPlayerDesc:setBounds(0,self.lblPlayerName:getY()+self.lblPlayerName:getHeight()-10,self.panelFindedPlayer:getWidth(),25)
@@ -122,7 +122,7 @@ function InfoApp:init()
     self.lblPlayerDesc:setAlignment(Label.CENTER)
     self.panelFindedPlayer:add(self.lblPlayerDesc)
 
-    self.lblKills = Label("Kills: 224")  
+    self.lblKills = Label("Kills: 0")  
     self.lblKills.decorator = true
     self.lblKills:setBounds(10,100,self.panelFindedPlayer:getWidth(),25)
     self.lblKills:setForeground(255,255,255)
@@ -130,7 +130,7 @@ function InfoApp:init()
     self.lblKills:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblKills)
 
-    self.lblDeaths = Label("Deaths: 1324654")  
+    self.lblDeaths = Label("Deaths: 0")  
     self.lblDeaths.decorator = true
     self.lblDeaths:setBounds(self.lblKills:getX(),125,self.panelFindedPlayer:getWidth(),25)
     self.lblDeaths:setForeground(255,255,255)
@@ -138,7 +138,7 @@ function InfoApp:init()
     self.lblDeaths:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblDeaths)
 
-    self.lblTimeOnline = Label("Tempo Online: 2 dias 2 horas e 24 minutos.")  
+    self.lblTimeOnline = Label("Conta: N/A")  
     self.lblTimeOnline.decorator = true
     self.lblTimeOnline:setBounds(self.lblKills:getX(),175,self.panelFindedPlayer:getWidth(),25)
     self.lblTimeOnline:setForeground(255,255,255)
@@ -146,7 +146,7 @@ function InfoApp:init()
     self.lblTimeOnline:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblTimeOnline)
 
-    self.lblGroupFacebook = Label("Grupinho: FDB,PDU,KEK")  
+    self.lblGroupFacebook = Label("Gang: Nenhuma")  
     self.lblGroupFacebook.decorator = true
     self.lblGroupFacebook:setBounds(self.lblKills:getX(),150,self.panelFindedPlayer:getWidth(),25)
     self.lblGroupFacebook:setForeground(255,255,255)
@@ -154,7 +154,7 @@ function InfoApp:init()
     self.lblGroupFacebook:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblGroupFacebook)
 
-    self.lblMoney = Label("Temers: #00FF00$15.000 + ($30.000 BANK)")  
+    self.lblMoney = Label("Dinheiro: #00FF00$0 #FFFFFF(Banco: #00FF00$0#FFFFFF)")  
     self.lblMoney.decorator = true
     self.lblMoney:setBounds(self.lblKills:getX(),200,self.panelFindedPlayer:getWidth(),25)
     self.lblMoney:setForeground(255,255,255)
@@ -162,7 +162,7 @@ function InfoApp:init()
     self.lblMoney:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblMoney)
 
-    self.lblFacebook = Label("Facebook: fb.com/iNeewbie")  
+    self.lblFacebook = Label("K/D: 0")  
     self.lblFacebook.decorator = true
     self.lblFacebook:setBounds(self.lblKills:getX(),225,self.panelFindedPlayer:getWidth(),25)
     self.lblFacebook:setForeground(255,255,255)
@@ -170,7 +170,7 @@ function InfoApp:init()
     self.lblFacebook:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblFacebook)
 
-    self.lblIsVip = Label("Gasta dinheiro com webjogos?: #FFFF00 SIM <3")  
+    self.lblIsVip = Label("VIP: Não")  
     self.lblIsVip.decorator = true
     self.lblIsVip:setBounds(self.lblKills:getX(),250,self.panelFindedPlayer:getWidth(),25)
     self.lblIsVip:setForeground(255,255,255)
@@ -178,7 +178,7 @@ function InfoApp:init()
     self.lblIsVip:setAlignment(Label.LEFT)
     self.panelFindedPlayer:add(self.lblIsVip)
 
-    self.lblTags = Label("Tags:Magnata,Autista,Corno,Macacto")  
+    self.lblTags = Label("Status: Aguardando pesquisa")  
     self.lblTags.decorator = true
     self.lblTags:setBounds(self.lblKills:getX(),275,self.panelFindedPlayer:getWidth(),25)
     self.lblTags:setForeground(255,255,255)
@@ -189,6 +189,8 @@ function InfoApp:init()
     
 
 
+    self:loadPlayerInfo(localPlayer)
+
     Phone.getInstance():setFunctionBack(function()
         InfoApp.getInstance():unloadMe()
         Phone.getInstance():loadApp(HomeApp.getInstance())
@@ -197,7 +199,63 @@ function InfoApp:init()
 end
 
 function InfoApp:loadPlayerInfo(player)
+    if not isElement(player) or getElementType(player) ~= "player" then
+        self.lblPlayerName:setText("Jogador não encontrado")
+        self.lblPlayerDesc:setText("Verifique o nome da conta")
+        self.lblKills:setText("Kills: 0")
+        self.lblDeaths:setText("Deaths: 0")
+        self.lblTimeOnline:setText("Conta: N/A")
+        self.lblGroupFacebook:setText("Gang: Nenhuma")
+        self.lblMoney:setText("Dinheiro: #00FF00$0 #FFFFFF(Banco: #00FF00$0#FFFFFF)")
+        self.lblFacebook:setText("K/D: 0")
+        self.lblIsVip:setText("VIP: Não")
+        self.lblTags:setText("Status: Offline ou inexistente")
+        return false
+    end
 
+    local account = player:getData("account") or player:getName()
+    local kills = tonumber(player:getData("kills")) or 0
+    local deaths = tonumber(player:getData("deaths")) or 0
+    local money = (player == localPlayer and getPlayerMoney(player)) or tonumber(player:getData("money")) or 0
+    local bank = tonumber(player:getData("bank_balance")) or 0
+    local gang = player:getData("gang") or "Nenhuma"
+    local vip = player:getData("vip_account") and "Sim" or "Não"
+    local kd = deaths == 0 and kills or math.floor((kills / deaths) * 100) / 100
+
+    self.lblPlayerName:setText(player:getName())
+    self.lblPlayerDesc:setText("Informações reais do jogador")
+    self.lblKills:setText("Kills: "..kills)
+    self.lblDeaths:setText("Deaths: "..deaths)
+    self.lblTimeOnline:setText("Conta: "..tostring(account))
+    self.lblGroupFacebook:setText("Gang: "..tostring(gang))
+    self.lblMoney:setText("Dinheiro: #00FF00$"..money.." #FFFFFF(Banco: #00FF00$"..bank.."#FFFFFF)")
+    self.lblFacebook:setText("K/D: "..tostring(kd))
+    self.lblIsVip:setText("VIP: "..vip)
+    self.lblTags:setText("Status: Online")
+    return true
 end
 
+function InfoApp:mousePressed(e)
+    if e:getButton() ~= MouseEvent.BUTTON1 or e.source ~= self.buttonSearch then
+        return
+    end
 
+    local search = tostring(self.fieldPlayer:getText() or "")
+    if #search == 0 then
+        self:loadPlayerInfo(localPlayer)
+        return
+    end
+
+    local player = getPlayerFromName(search)
+    if not player then
+        local loweredSearch = string.lower(search)
+        for _, candidate in pairs(getElementsByType("player")) do
+            if string.find(string.lower(candidate:getName()), loweredSearch, 1, true) then
+                player = candidate
+                break
+            end
+        end
+    end
+
+    self:loadPlayerInfo(player)
+end

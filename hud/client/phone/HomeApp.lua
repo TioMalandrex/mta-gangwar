@@ -53,6 +53,11 @@ self.secondAppBig:addMouseListener({
     end,
     mouseExited = function()
          self.secondAppBig:setBackground(tocolor(unpack(phoneInstance.appColorOnExited)))
+    end,
+    mousePressed = function(e)
+        if(e:getButton() == MouseEvent.BUTTON1) then
+            outputChatBox("#FF6600[PHONE]: #FFFFFFSistema de chamadas em desenvolvimento.", 255, 255, 255, true)
+        end
     end
 })
 self:add(self.secondAppBig)
@@ -116,6 +121,11 @@ self.fourApp:addMouseListener({
     end,
     mouseExited = function()
         self.fourApp:setBackground(tocolor(unpack(phoneInstance.appColorOnExited)))
+    end,
+    mousePressed = function(e)
+        if(e:getButton() == MouseEvent.BUTTON1) then
+            outputChatBox("#FF6600[GANG WAR]: #FFFFFFUse /gang, /territorios e painel de ataque para informações em tempo real.", 255, 255, 255, true)
+        end
     end
 })
 self:add(self.fourApp)
@@ -147,6 +157,13 @@ self.fiveApp:addMouseListener({
     end,
     mouseExited = function()
         self.fiveApp:setBackground(tocolor(unpack(phoneInstance.appColorOnExited)))
+    end,
+    mousePressed = function(e)
+        if(e:getButton() == MouseEvent.BUTTON1) then
+            BankSystem.getInstance():updateInfos()
+            BankSystem.getInstance():setVisible(true)
+            showCursor(true)
+        end
     end
 })
 self:add(self.fiveApp)
@@ -175,6 +192,11 @@ self.sixApp:addMouseListener({
     end,
     mouseExited = function()
        self.sixApp:setBackground(tocolor(unpack(phoneInstance.appColorOnExited)))
+    end,
+    mousePressed = function(e)
+        if(e:getButton() == MouseEvent.BUTTON1) then
+            outputChatBox("#FF6600[MAPA]: #FFFFFFPressione F11 para abrir o mapa do jogo.", 255, 255, 255, true)
+        end
     end
 })
 self:add(self.sixApp)
@@ -204,6 +226,12 @@ self.sevenApp:addMouseListener({
     end,
     mouseExited = function()
         self.sevenApp:setBackground(tocolor(unpack(phoneInstance.appColorOnExited)))
+    end,
+    mousePressed = function(e)
+        if(e:getButton() == MouseEvent.BUTTON1) then
+            local gangName = localPlayer:getData("gang") or "Sem gang"
+            outputChatBox("#FF6600[GUERRA]: #FFFFFFGang atual: "..tostring(gangName)..". Entre em territórios para ver o painel de guerra.", 255, 255, 255, true)
+        end
     end
 })
 self:add(self.sevenApp)
@@ -219,7 +247,6 @@ Phone.getInstance():setFunctionBack(function()
 end)   
 return self
 end
-
 
 
 

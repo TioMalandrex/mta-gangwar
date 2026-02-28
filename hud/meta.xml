@@ -25,7 +25,7 @@
             <file src="sfx/turf/ataque.ogg"/>
             <file src="sfx/turf/defende.flac"/>
             <file src="sfx/turf/domina.flac"/>-->
-        <!--Windows Phone System
+        <!--Windows Phone System-->
 
             <script src="client/phone/Phone.lua" type="client"/>    
             <script src="client/phone/App.lua" type="client"/>   
@@ -55,8 +55,7 @@
             <file src="gfx/phone/conta-icon.png" />
             <file src="gfx/phone/persona-icon.png" />           
             <file src="gfx/phone/vip-icon.png" />
-            <file src="gfx/phone/war.png" />  
-             <file src="gfx/phone/avatar/iNeewbie.png" />  -->
+             <file src="gfx/phone/avatar/iNeewbie.png" />
         <!--Logo System-->
             <script src="client/logo/Logo.lua" type="client"/>
             <file src="gfx/logo/logo-main.png" />
