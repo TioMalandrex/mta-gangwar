@@ -4,6 +4,19 @@ local super = Class("InfoApp", App, function()
 end
 end).getSuperclass()
 
+local function formatNumber(value)
+    value = tonumber(value) or 0
+    local formatted = tostring(math.floor(value))
+    while true do
+        local nextValue, count = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1,%2")
+        formatted = nextValue
+        if count == 0 then
+            break
+        end
+    end
+    return formatted
+end
+
 function InfoApp:init()
     super.init(self)
     local fontWindows = dxCreateFont("gfx/phone/windows.TTF",14,true)
@@ -216,11 +229,12 @@ function InfoApp:loadPlayerInfo(player)
     local account = player:getData("account") or player:getName()
     local kills = tonumber(player:getData("kills")) or 0
     local deaths = tonumber(player:getData("deaths")) or 0
-    local money = (player == localPlayer and getPlayerMoney(player)) or tonumber(player:getData("money")) or 0
+    local money = getPlayerMoney(player) or tonumber(player:getData("money")) or 0
     local bank = tonumber(player:getData("bank_balance")) or 0
     local gang = player:getData("gang") or "Nenhuma"
     local vip = player:getData("vip_account") and "Sim" or "Não"
-    local kd = deaths == 0 and kills or math.floor((kills / deaths) * 100) / 100
+    local kd = deaths == 0 and kills or (kills / deaths)
+    local kdFormatted = string.format("%.2f", kd)
 
     self.lblPlayerName:setText(player:getName())
     self.lblPlayerDesc:setText("Informações reais do jogador")
@@ -228,8 +242,8 @@ function InfoApp:loadPlayerInfo(player)
     self.lblDeaths:setText("Deaths: "..deaths)
     self.lblTimeOnline:setText("Conta: "..tostring(account))
     self.lblGroupFacebook:setText("Gang: "..tostring(gang))
-    self.lblMoney:setText("Dinheiro: #00FF00$"..money.." #FFFFFF(Banco: #00FF00$"..bank.."#FFFFFF)")
-    self.lblFacebook:setText("K/D: "..tostring(kd))
+    self.lblMoney:setText("Dinheiro: #00FF00$"..formatNumber(money).." #FFFFFF(Banco: #00FF00$"..formatNumber(bank).."#FFFFFF)")
+    self.lblFacebook:setText("K/D: "..kdFormatted)
     self.lblIsVip:setText("VIP: "..vip)
     self.lblTags:setText("Status: Online")
     return true

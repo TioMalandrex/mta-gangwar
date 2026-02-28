@@ -36,7 +36,7 @@
 - **💰 Economia Balanceada**: Sistema completo de dinheiro, banco e transações
 - **🔫 Sistema de Combate**: Drive-by, pickups de armas e morte realista
 - **📊 Progressão**: Sistema de XP, níveis e rankings
-- **🎨 Interface Rica**: HUD customizado, telefone in-game (em desenvolvimento, ainda não funcional), telas polidas
+- **🎨 Interface Rica**: HUD customizado, telefone in-game funcional (versão inicial), telas polidas
 
 ### Estatísticas do Sistema
 
