@@ -8,23 +8,32 @@ Este guia explica, de forma prática, como usar o telefone in-game no estado atu
 
 ## 1) Como abrir o telefone
 
-Atualmente, o telefone é carregado automaticamente quando o resource `hud` inicia.
+Atualmente, o telefone inicia oculto e é controlado pelo comando:
+
+```txt
+/phone
+```
 
 Na prática:
 
 1. Entre no servidor normalmente.
-2. Após o HUD iniciar, o telefone aparece no lado direito da tela.
+2. Digite `/phone` no chat.
+3. O telefone aparece no lado direito da tela com o mouse livre para clicar.
 
-> Referência técnica: `hud/client/phone/Phone.lua` (`onClientResourceStart` + `setVisible(true)`).
+> Referência técnica: `hud/client/phone/Phone.lua` (`addCommandHandler("phone", ...)`).
 
 ---
 
 ## 2) Como fechar o telefone
 
-No estado atual, **não existe botão/tecla global de fechar o telefone**.
+Para fechar/ocultar, digite novamente:
 
-- O telefone permanece visível na HUD.
-- O botão físico inferior do aparelho funciona como **voltar de app**, e não como fechar o telefone inteiro.
+```txt
+/phone
+```
+
+- O comando funciona em modo toggle (abre/fecha).
+- Ao fechar, o cursor também é ocultado.
 
 ---
 
@@ -70,4 +79,4 @@ Na tela inicial (Home), clique nos cards:
 ## 5) Observações importantes
 
 - Este guia descreve o comportamento atual da implementação.
-- O fechamento global do telefone pode ser adicionado em uma fase futura (ex.: tecla de toggle abrir/fechar).
+- O botão físico inferior do aparelho continua funcionando como **voltar de app**.
