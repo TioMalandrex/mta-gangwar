@@ -179,12 +179,9 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
     Phone.getInstance():loadApp(HomeApp.getInstance())
     addCommandHandler("phone", function()
         local phone = Phone.getInstance()
-        local currentlyVisible = phone.isPhoneVisible
-        if type(phone.isVisible) == "function" then
-            currentlyVisible = phone:isVisible()
-        end
-        phone.isPhoneVisible = not currentlyVisible
-        phone:setVisible(phone.isPhoneVisible)
-        showCursor(phone.isPhoneVisible)
+        local newVisibility = not phone.isPhoneVisible
+        phone:setVisible(newVisibility)
+        phone.isPhoneVisible = newVisibility
+        showCursor(newVisibility)
     end)
 end)
