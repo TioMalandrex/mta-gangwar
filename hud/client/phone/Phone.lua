@@ -177,7 +177,7 @@ end
 addEventHandler("onClientResourceStart", resourceRoot, function()
     Toolkit.getInstance():add(Phone.getInstance())
     Phone.getInstance():loadApp(HomeApp.getInstance())
-    addCommandHandler("phone", function()
+    local function togglePhone()
         local phone = Phone.getInstance()
         if not phone then
             return
@@ -186,5 +186,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
         phone:setVisible(newVisibility)
         phone.isPhoneVisible = newVisibility
         showCursor(newVisibility)
-    end)
+    end
+    addCommandHandler("phone", togglePhone)
+    bindKey("F6", "down", togglePhone)
 end)

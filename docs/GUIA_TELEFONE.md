@@ -8,7 +8,13 @@ Este guia explica, de forma prática, como usar o telefone in-game no estado atu
 
 ## 1) Como abrir o telefone
 
-Atualmente, o telefone inicia oculto e é controlado pelo comando:
+Atualmente, o telefone inicia oculto e pode ser controlado pela tecla:
+
+```txt
+F6
+```
+
+Também é possível usar o comando:
 
 ```txt
 /phone
@@ -17,16 +23,22 @@ Atualmente, o telefone inicia oculto e é controlado pelo comando:
 Na prática:
 
 1. Entre no servidor normalmente.
-2. Digite `/phone` no chat.
+2. Pressione `F6` (ou digite `/phone` no chat).
 3. O telefone aparece no lado direito da tela com o mouse livre para clicar.
 
-> Referência técnica: `hud/client/phone/Phone.lua` (`addCommandHandler("phone", ...)`).
+> Referência técnica: `hud/client/phone/Phone.lua` (`bindKey("F6", "down", ...)`).
 
 ---
 
 ## 2) Como fechar o telefone
 
-Para fechar/ocultar, digite novamente:
+Para fechar/ocultar, pressione novamente:
+
+```txt
+F6
+```
+
+Ou digite novamente:
 
 ```txt
 /phone
