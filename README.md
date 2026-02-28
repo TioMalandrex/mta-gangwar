@@ -403,6 +403,7 @@ Este README contém toda a informação essencial para começar. Para análises 
 |-----------|-----------|---------|-------------|
 | **[SYSTEM_ANALYSIS.md](SYSTEM_ANALYSIS.md)** | Análise técnica completa do sistema | 43 KB | Arquitetura, padrões, detalhes técnicos |
 | **[SECURITY_REVISED.md](SECURITY_REVISED.md)** | **Análise de segurança (contexto MTA:SA)** | 20 KB | **LEIA ANTES** de produção! |
+| **[GUIA_TELEFONE.md](docs/GUIA_TELEFONE.md)** | Guia prático para abrir/fechar/usar o telefone | 3 KB | Operação diária do telefone in-game |
 
 **Nota:** Este README consolida informações que antes estavam em múltiplos arquivos. A análise de segurança foi **completamente revisada** considerando a arquitetura cliente-servidor do MTA:SA e repositório privado.
 
