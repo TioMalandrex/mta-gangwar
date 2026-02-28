@@ -62,7 +62,8 @@ function Phone:init()
    
 
 	self.screenX, self.screenY = Graphics.getInstance():getSize() -- podes usar Graphics.getInstance():getSize()
-    showCursor( true)
+    self.isPhoneVisible = false
+    showCursor(false)
    
     --Image Windows Phone PNG
     local width,height,iWidth,iHeight = 80,80,50,50
@@ -75,7 +76,7 @@ function Phone:init()
 
     self:setSize(self.lblImage:getWidth(),self.lblImage:getHeight())
     self:setLocation(self.screenX-self:getWidth(),self.screenY-self:getHeight()-20)
-    self:setVisible(true)
+    self:setVisible(false)
 
     self.barNotification = Panel()
     self.barNotification:setBounds(18,58,270,25)
@@ -176,7 +177,16 @@ end
 addEventHandler("onClientResourceStart", resourceRoot, function()
     Toolkit.getInstance():add(Phone.getInstance())
     Phone.getInstance():loadApp(HomeApp.getInstance())
-    
+    local function togglePhone()
+        local phone = Phone.getInstance()
+        if not phone then
+            return
+        end
+        local newVisibility = not phone.isPhoneVisible
+        phone:setVisible(newVisibility)
+        phone.isPhoneVisible = newVisibility
+        showCursor(newVisibility)
+    end
+    addCommandHandler("phone", togglePhone)
+    bindKey("F6", "down", togglePhone)
 end)
-
-
