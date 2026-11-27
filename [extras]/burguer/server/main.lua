@@ -1,11 +1,29 @@
+-- Catálogo oficial (vida e preço definidos SOMENTE no servidor; o cliente
+-- envia apenas o nome do item). Mantenha em sincronia com
+-- client/Burguer.lua (static.items).
+local EAT_ITEMS = {
+	["Pequeno"]      = { health = 5,  price = 10 },
+	["Medio"]        = { health = 10, price = 20 },
+	["Grande"]       = { health = 15, price = 30 },
+	["Muito Grande"] = { health = 20, price = 30 },
+}
+
+local EAT_TYPES = { BURGUER = true, PIZZA = true, CHICKEN = true }
+
 addEvent("onBuyEatHealth",true)
 addEventHandler("onBuyEatHealth",root,
-function(itemName, health, price, itemType)
-local PlayerMoney = getPlayerMoney(client)
-	if (PlayerMoney >= price) then
+function(itemName, _, _, itemType)
+	-- health e price enviados pelo cliente são ignorados.
+	if not isElement(client) or type(itemName) ~= "string" then return end
+	itemName = itemName:gsub("^%s+", ""):gsub("%s+$", "")
+	local item = EAT_ITEMS[itemName]
+	if not item then return end
+	if not EAT_TYPES[itemType] then itemType = "LANCHONETE" end
+
+	if (getPlayerMoney(client) >= item.price) then
 		playSoundFrontEnd(client, 11)
-		takePlayerMoney(client, price)
-		setElementHealth(client, getElementHealth(client) + health)
+		takePlayerMoney(client, item.price)
+		setElementHealth(client, getElementHealth(client) + item.health)
 		outputChatBox("#FF6464["..itemType.."]#00FF00 Você comprou "..itemName, client, 0, 255, 0, true )
 	else
 		playSoundFrontEnd(client, 1)

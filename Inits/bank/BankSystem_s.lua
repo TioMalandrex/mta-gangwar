@@ -25,14 +25,56 @@ addEventHandler("onPlayerQuit", root, function()
     eventCooldowns[source] = nil
 end)
 
+-- Limite por transação e validação de valores vindos do cliente.
+-- O painel envia o texto digitado; aceitamos apenas inteiros positivos.
+local BANK_MAX_AMOUNT = 10000000
+
+local function parseBankAmount(value)
+    local amount = tonumber(value)
+    if not amount or amount ~= amount then -- nil ou NaN
+        return false
+    end
+    if amount <= 0 or amount > BANK_MAX_AMOUNT or math.floor(amount) ~= amount then
+        return false
+    end
+    return amount
+end
+
+-- Markers dos bancos (preenchidos no onResourceStart). O servidor confere se o
+-- jogador está realmente em um banco antes de qualquer operação.
+local bankMarkers = {}
+
+local function isPlayerAtBank(player)
+    for _, marker in ipairs(bankMarkers) do
+        if isElement(marker) and isElementWithinMarker(player, marker) then
+            return true
+        end
+    end
+    return false
+end
+
+local function canUseBank(player)
+    if not isElement(player) or not player:getData("account") then
+        return false
+    end
+    if not isPlayerAtBank(player) then
+        outputChatBox("#1712e6[BANCO]:#FFFFFFVocê precisa estar em um banco.", player, 255, 255, 255, true)
+        return false
+    end
+    return true
+end
+
 addEvent("onPlayerWithdraw",true)
 addEventHandler("onPlayerWithdraw",root,function (quantity)
     if isEventRateLimited(client, "onPlayerWithdraw") then
         return
     end
-    local quantity = tonumber(quantity)
+    if not canUseBank(client) then
+        return
+    end
+    local quantity = parseBankAmount(quantity)
     if(quantity) then
-        local bankBalance = client:getData("bank_balance") or 0
+        local bankBalance = tonumber(client:getData("bank_balance")) or 0
         if(bankBalance >= quantity) then
             givePlayerMoney( client, quantity)
             client:setData("bank_balance",tonumber(bankBalance - quantity))
@@ -53,10 +95,13 @@ addEventHandler("onPlayerDeposit",root,function (quantity)
     if isEventRateLimited(client, "onPlayerDeposit") then
         return
     end
-    local quantity = tonumber(quantity)
+    if not canUseBank(client) then
+        return
+    end
+    local quantity = parseBankAmount(quantity)
     if(quantity) then
-        local bankBalance = client:getData("bank_balance") or 0
-        if(quantity > 0 and quantity <= client:getMoney()) then
+        local bankBalance = tonumber(client:getData("bank_balance")) or 0
+        if(quantity <= client:getMoney()) then
             takePlayerMoney( client, quantity)
             playSoundFrontEnd(client,6)
             client:setData("bank_balance",tonumber(bankBalance + quantity))
@@ -77,12 +122,15 @@ addEventHandler("onPlayerTransfer",root,function (toPlayer,quantity)
     if isEventRateLimited(client, "onPlayerTransfer") then
         return
     end
-    if not toPlayer then
+    if not canUseBank(client) then
+        return
+    end
+    if type(toPlayer) ~= "string" or toPlayer == "" then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFInforme um player válido.",client,255,255,255,true)
         return
     end
     local playerElement = getPlayerFromName( toPlayer )
-    local quantity = tonumber(quantity)
+    local quantity = parseBankAmount(quantity)
     if not playerElement then
         outputChatBox( "#1712e6[BANCO]:#FFFFFFPlayer não existente (Online).",client,255,255,255,true)
         return
@@ -96,8 +144,8 @@ addEventHandler("onPlayerTransfer",root,function (toPlayer,quantity)
          return
     end
     if(quantity) then
-        local clientBalance = client:getData("bank_balance") or 0
-        local playerBalance = playerElement:getData("bank_balance") or 0
+        local clientBalance = tonumber(client:getData("bank_balance")) or 0
+        local playerBalance = tonumber(playerElement:getData("bank_balance")) or 0
         if(clientBalance >= quantity) then
             client:setData("bank_balance",tonumber(clientBalance-quantity))
             playerElement:setData("bank_balance",tonumber(playerBalance + quantity))
@@ -156,6 +204,7 @@ addEventHandler("onResourceStart", resourceRoot, function()
 		local marker = createMarker(v[1], v[2], v[3] - 1, "cylinder", 2.0, 0, 255, 0, 200)
 		marker:setDimension(v[4])
 		marker:setInterior(v[5])
+		table.insert(bankMarkers, marker)
 		function bankHit(hitElement, matchingDimension)
 			if (hitElement:getType() == "player") then
 				if (matchingDimension) then

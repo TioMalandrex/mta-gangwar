@@ -64,8 +64,28 @@ function VehicleShop.setVehicleUsed(player)
 	end
 end
 
+-- Catálogo oficial (modelo => preço). O preço é definido SOMENTE no servidor;
+-- o valor enviado pelo cliente é ignorado. Mantenha em sincronia com
+-- client/src/VehicleHud.lua (static.items).
+local VEHICLE_PRICES = {
+	-- Bicicletas
+	[509] = 5000, [481] = 6000, [510] = 7000,
+	-- Motos
+	[468] = 15000, [463] = 17000, [581] = 20000, [522] = 22000, [461] = 25000, [521] = 27000,
+	-- Carros
+	[535] = 30000, [536] = 28000, [415] = 30000, [477] = 35000, [506] = 32000,
+	[503] = 35000, [565] = 28000, [541] = 40000, [411] = 50000,
+	-- Outros
+	[434] = 25000, [568] = 27000, [424] = 22000, [471] = 20000, [571] = 25000, [557] = 35000,
+}
+
 addEvent("onPlayerBuyVehicle", true)
-addEventHandler("onPlayerBuyVehicle", getRootElement(), function(vehicleid, vehiclePrice)
+addEventHandler("onPlayerBuyVehicle", getRootElement(), function(vehicleid)
+	if not isElement(client) then return end
+	vehicleid = tonumber(vehicleid)
+	local vehiclePrice = vehicleid and VEHICLE_PRICES[vehicleid]
+	if not vehiclePrice then return end
+
 	if (VehicleShop.hasPlayerVehicle(client)) then
 		client:outputChat("#FF6464[TRANSFENDER]#00FF00 Você já possui um veiculo. Use /veiculo", 255, 255, 255, true)
 		return
