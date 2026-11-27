@@ -25,6 +25,25 @@
 
 end).getSuperclass()
 
+--[[
+	Converte um valor em literal SQL seguro, usando o escape nativo do MTA
+	(dbPrepareString com placeholder "?"). Strings são escapadas e colocadas
+	entre aspas; nil/false viram NULL; true vira 1.
+	Nunca concatene valores vindos de jogadores diretamente na query.
+]]
+local function sqlValue(value)
+	if value == nil or value == false or value == "NULL" then
+		return "NULL"
+	end
+	if value == true then
+		return "1"
+	end
+	if type(value) ~= "number" then
+		value = tostring(value)
+	end
+	return Database.connection:prepareString("?", value)
+end
+
 
 function Database:init(table)
 	super.init(self)
@@ -57,7 +76,7 @@ end
 
 ]]
 function Database:getSingle()
-	self.query = Database.connection:prepareString(self.query) 
+	-- A query já foi montada com valores escapados (sqlValue / custom com "?").
 	if self.query then
 		local query = Database.connection:query(self.query)
 		local result = query:poll(-1)
@@ -79,8 +98,7 @@ end
 	outputChatBox(result[1].columnName)
 ]]
 function Database:getAll()
-
-	self.query = Database.connection:prepareString(self.query)
+	-- A query já foi montada com valores escapados (sqlValue / custom com "?").
 	if self.query then
 		local query = Database.connection:query(self.query)
 		local result = query:poll(-1)
@@ -118,11 +136,11 @@ end
 
 ]]--
 function Database:custom(string,...)
-	local result = {...} or nil
+	local result = {...}
 	if not self.query then
-		self.query = Database.connection:prepareString(string,unpack{result})
+		self.query = Database.connection:prepareString(string,unpack(result))
 	else
-		self.query = self.query .. " "..Database.connection:prepareString(string,unpack{result})
+		self.query = self.query .. " "..Database.connection:prepareString(string,unpack(result))
 	end
 	return self
 end
@@ -246,10 +264,10 @@ function Database:insert(table)
 						columns = columns.. ")"
 					end
 				if not (values) then
-					values = "(".."\'"..tValue.."\'"
+					values = "("..sqlValue(tValue)
 				
 				else
-					values = values..", ".."\'"..tValue.."\'"
+					values = values..", "..sqlValue(tValue)
 					
 				end
 				if(getTableLength(table) == current) then
@@ -284,18 +302,9 @@ function Database:update(table)
 		local columns = nil
 		for index, tValue in pairs(table) do
 			if not (columns)then
-				if tValue == "NULL" then
-					columns = index.."= NULL"
-				else
-					columns = index.."="..(tValue and "'"..tValue.."'" or "NULL")..""
-				end
+				columns = index.."="..sqlValue(tValue)
 			else
-				if tValue == "NULL" then
-						columns = columns..", "..index .."= NULL"
-				
-				else
-					columns = columns..", "..index .."="..(tValue and "'"..tValue.."'" or "NULL")..""
-				end
+				columns = columns..", "..index .."="..sqlValue(tValue)
 			end		
 		end
 		ps = ps ..columns
@@ -316,7 +325,9 @@ end
 ]]
 function Database:where(string,value)
 	if not self.query or not string then return nil end
-	value = (value and (string.." = ".."\'"..value.."\'") or string)
+	-- where("coluna", valor): o valor é sempre escapado.
+	-- where("condição fixa"): use apenas com texto escrito no código, nunca com dados de jogadores.
+	value = (value and (string.." = "..sqlValue(value)) or string)
 		self.query = self.query .." WHERE "..value
 	return self 
 end

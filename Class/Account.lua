@@ -89,8 +89,8 @@ function Account:create(player,username,password)
 	end
 
 
-	if (#password < 3)  then
-	   outputChatBox("#FF6600[SERVER]:#FFFFFFA senha informada Ã© muito pequena. (Min: 3)",player,255,255,255,true)
+	if (#password < 6)  then
+	   outputChatBox("#FF6600[SERVER]:#FFFFFFA senha informada é muito pequena. (Min: 6)",player,255,255,255,true)
 		return false
 	end
 	if not (isStringValid(username))then
@@ -160,8 +160,14 @@ function Account:login(player,name,password)
 	Account.database:setTable("tbl_users")
 	
   -- Checking if the player wrote the name and password.
-	if not (player) or not (name) or not (password) or (#name == 0) or (#password ==0) then
+	if not (player) or type(name) ~= "string" or type(password) ~= "string" or (#name == 0) or (#password ==0) then
 	    outputChatBox("#FF6600[SERVER]:#FFFFFF Campos nÃ£o preenchidos. ",player,255,255,255,true)
+		return false
+	end
+
+	-- Mesma regra do registro: nomes de conta só têm letras, números e _.
+	if not isStringValid(name) then
+	    outputChatBox("#FF6600[SERVER]:#FFFFFF A conta informada nÃ£o existe. ",player,255,255,255,true)
 		return false
 	end
 

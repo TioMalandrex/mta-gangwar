@@ -1,31 +1,46 @@
+-- Catálogo oficial da loja. Os preços e armas são definidos SOMENTE aqui no
+-- servidor; o cliente envia apenas o nome do item (valores enviados pelo
+-- cliente podem ser falsificados). Mantenha em sincronia com
+-- client/Ammunation.lua (static.items).
+local AMMU_ITEMS = {
+	["9mm"]            = { weapon = 22, price = 240 },
+	["Silenced 9mm"]   = { weapon = 23, price = 720 },
+	["Desert Eagle"]   = { weapon = 24, price = 1440 },
+	["Tec-9"]          = { weapon = 32, price = 360 },
+	["Micro Uzi"]      = { weapon = 28, price = 600 },
+	["MP5"]            = { weapon = 29, price = 2400 },
+	["Shotgun"]        = { weapon = 25, price = 720 },
+	["Sawnoff"]        = { weapon = 26, price = 960 },
+	["Combat Shotgun"] = { weapon = 27, price = 1200 },
+	["AK47"]           = { weapon = 30, price = 4200 },
+	["M4"]             = { weapon = 31, price = 5400 },
+	["Rifle"]          = { weapon = 33, price = 1200 },
+	["Sniper Rifle"]   = { weapon = 34, price = 6000 },
+	["Armor"]          = { armor = true, price = 240 },
+}
+
 addEvent("onPlayerBuyAmmuItem",true)
 addEventHandler("onPlayerBuyAmmuItem",root,
-function(itemName, weaponid, price)
-	if(itemName == "Armor") then
-		local PlayerMoney = getPlayerMoney(client)
-		if (PlayerMoney >= price) then
-			playSoundFrontEnd(client, 11)
-			takePlayerMoney(client, price)
+function(itemName)
+	-- Os outros parâmetros (weaponid, price) enviados pelo cliente são ignorados.
+	if not isElement(client) or type(itemName) ~= "string" then return end
+	local item = AMMU_ITEMS[itemName]
+	if not item then return end
+
+	if (getPlayerMoney(client) >= item.price) then
+		playSoundFrontEnd(client, 11)
+		takePlayerMoney(client, item.price)
+		if item.armor then
 			setPedArmor(client, 100)
-			outputChatBox("#FF6464[AMMUNATION]#00FF00 Você comprou "..itemName, client, 0, 255, 0, true)
 		else
-			playSoundFrontEnd(client, 1)
-			outputChatBox("#FF6464[AMMUNATION]#00FF00 Dinheiro insuficiente", client, 255, 0, 0, true)
+			giveWeapon(client, item.weapon, 25)
 		end
+		outputChatBox("#FF6464[AMMUNATION]#00FF00 Você comprou "..itemName, client, 0, 255, 0, true)
 	else
-		local PlayerMoney = getPlayerMoney(client)
-		if (PlayerMoney >= price) then
-			playSoundFrontEnd(client, 11)
-			takePlayerMoney(client, price)
-			giveWeapon(client , weaponid, 25)
-			outputChatBox("#FF6464[AMMUNATION]#00FF00 Você comprou "..itemName, client, 0, 255, 0, true )
-		else
-			playSoundFrontEnd(client, 1)
-			outputChatBox("#FF6464[AMMUNATION]#00FF00 Dinheiro insuficiente", client, 255, 0, 0, true)
-		end
+		playSoundFrontEnd(client, 1)
+		outputChatBox("#FF6464[AMMUNATION]#00FF00 Dinheiro insuficiente", client, 255, 0, 0, true)
 	end
 end)
-
 
 local blipPosition = {
 	{2159.54077, 943.18250, 10.82031},

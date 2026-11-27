@@ -417,7 +417,11 @@ function (player, command, type,...)
             player:outputChat("#FF6464[GANG]#00FF00 Você já está em uma gang, use #FF6464/gang abandonar #00FF00para abandonar e criar uma.", 0, 255, 0, true)  
             return false
         end
-        local gangName = parameters[1] or 0
+        local gangName = parameters[1] or ""
+        if not isStringValid(gangName) then
+            player:outputChat("#FF6464[GANG]#00FF00 Use apenas letras, números e _ no nome da gang.", 0, 255, 0, true)
+            return false
+        end
         if(string.len(gangName) <= 3) then
             player:outputChat("#FF6464[GANG]#00FF00Nome da gang muito pequeno. (Min: 3)", 0, 255, 0, true)
             return false
@@ -703,6 +707,10 @@ function (player, command, type,...)
             player:outputChat("#FF6464[GANG]#00FF00Tag invalida. (Max:4)", 255, 255, 0, true)
             return false
         end
+        if not isStringValid(parameters[1]) then
+            player:outputChat("#FF6464[GANG]#00FF00Tag invalida. Use apenas letras e números.", 255, 255, 0, true)
+            return false
+        end
         if(Gang.getByTagName(parameters[1])) then
             player:outputChat("#FF6464[GANG]#00FF00Tag Existente, selecionar outra", 255, 255, 0, true)
             return false
@@ -823,8 +831,12 @@ addCommandHandler("top", getTopGangList)
 
 function Gang.onResourceStop()	
     for index,gang in pairs (Gang.instances) do
-        Gang.database:custom(string.format([[UPDATE tbl_gangs SET xp ='%s',tag = %s, slogan = %s WHERE name = '%s']],Area.getOwnerXp(gang.name),(gang.tag and "'"..gang.tag.."'" or "NULL"),(gang.slogan and "'"..gang.slogan.."'" or "NULL"),gang.name)):execute()
-         --Gang.database:custom(string.format([[UPDATE tbl_gangs SET xp ='%s',tag = %s, slogan = %s WHERE name = '%s']],Area.getOwnerXp(gang.name),(gang.tag and "'"..gang.tag.."'" or "NULL"),(gang.slogan and "'"..gang.slogan.."'" or "NULL"),gang.name)):debug()
+        -- Valores escapados pelo builder (antes eram concatenados direto no SQL).
+        Gang.database:update({
+            ['xp'] = Area.getOwnerXp(gang.name),
+            ['tag'] = gang.tag or "NULL",
+            ['slogan'] = gang.slogan or "NULL"
+        }):where("name", gang.name):execute()
     end
 end 
 addEventHandler("onResourceStop", resourceRoot, Gang.onResourceStop)

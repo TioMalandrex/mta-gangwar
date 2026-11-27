@@ -44,6 +44,9 @@
 			<script src="Class/Properties.lua" type="server" />
 			
 		
+	<!-- SECURITY -->
+		<script src="Inits/security/ElementDataGuard_s.lua" type="server"/>
+
 	<!-- FIRST INNITS --> 
 		<script src="Inits/login/Account_c.lua" type="client"/> 
 		<script src="Inits/login/Account_s.lua" type="server"/>
